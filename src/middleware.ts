@@ -4,6 +4,7 @@ import type { NextRequest } from 'next/server';
 
 export async function middleware(req: NextRequest) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
+    console.log("Token:", token);
     const { pathname } = req.nextUrl;
 
     // Allow requests if the token exists or the path is for authentication
