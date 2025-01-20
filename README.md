@@ -14,7 +14,7 @@ The goal of this project is to act as foundation of my future NextJS Projects.
 ### FEATURES
 - this can handle simple session management with token
 - have protected pages for users
-- it also have middleware
+- it also have middleware, the middleware is configured to be flexible to its environments, local or productions
 
 
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
