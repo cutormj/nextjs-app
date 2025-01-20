@@ -1,3 +1,22 @@
+### INTRO
+The goal of this project is to act as foundation of my future NextJS Projects.
+- Key feature, using NextAuth Beta
+- Please see the other branches and README file for more features and information.
+- With session management
+
+### PREPARE
+- run npm install next-auth@beta
+- Make sure to include the auth.ts file in source(src) directory. So it can be accessible inside the app folder with "@/"
+
+- prepare the src/actions/index.tsx
+- prepare src/app/sigin/page.tsx
+
+### FEATURES
+- this can handle simple session management with token
+- have protected pages for users
+- it also have middleware
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
