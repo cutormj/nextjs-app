@@ -1,7 +1,7 @@
-import mongoose, { Document, Schema, Model } from 'mongoose';
+import mongoose, { Document, Schema, Model, Types } from 'mongoose';
 
 interface IProfile extends Document {
-  userId: mongoose.Types.ObjectId;
+  userId: Types.ObjectId;
   bio: string;
   website?: string;
   location?: string;
@@ -12,7 +12,7 @@ interface IProfile extends Document {
 const ProfileSchema: Schema<IProfile> = new Schema(
   {
     userId: {
-      type: mongoose.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'User',
       required: true,
     },
@@ -20,8 +20,12 @@ const ProfileSchema: Schema<IProfile> = new Schema(
       type: String,
       required: true,
     },
-    website: String,
-    location: String,
+    website: {
+      type: String,
+    },
+    location: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
