@@ -33,9 +33,13 @@ export async function doCredentialLogin(formData: FormData) {
 
 
 export const getUserByUsername = async (findusername: string) => {
-    
-  const user = await User.findOne({ username: findusername });
-  console.log("THE USER!",user);
-  return user; // Return the found user (or null if not found)
+  const user = await User.findById({ username: findusername });
+  console.log("THE USER!", user);
 
+  // Return null if no user is found
+  if (!user) {
+    return null;
+  }
+
+  return user; // Return the found user
 };
