@@ -1,16 +1,14 @@
 
 import { doSocialLogin } from "@/actions/index";
+import { Button } from "@/components/ui/button";
 const SignIn: React.FC = () => {
   return (
     <form action={doSocialLogin}>
-            <button
-                className="bg-blue-700 text-white p-4 rounded-md text-md"
-                type="submit"
-                name="action"
-                value="google"
-            >
-                Sign In With Google
-            </button>
+            <Button
+              type="submit"
+              name="action"
+              value="google"
+            >Sign In With Google</Button>
         </form>
   );
 };
