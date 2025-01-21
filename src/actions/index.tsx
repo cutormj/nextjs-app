@@ -1,6 +1,7 @@
 'use server'
 
 import { signIn, signOut } from "@/auth";
+import User from "@/models/User";
 
 export async function doSocialLogin(formData: FormData) {
     const action = formData.get('action') as string;
@@ -29,3 +30,12 @@ export async function doCredentialLogin(formData: FormData) {
     }
   }
 }
+
+
+export const getUserByUsername = async (findusername: string) => {
+    
+  const user = await User.findOne({ username: findusername });
+  console.log("THE USER!",user);
+  return user; // Return the found user (or null if not found)
+
+};
