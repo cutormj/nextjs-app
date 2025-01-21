@@ -17,6 +17,7 @@ import {
     CardDescription
   } from "@/components/ui/card"
   
+  
 
 interface UserMenuProps {
   image: string;
@@ -43,8 +44,9 @@ const UserMenu: React.FC<UserMenuProps> = ({ image, name, email }) => {
 
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>Income</DropdownMenuItem>
-            <DropdownMenuItem>Expenses</DropdownMenuItem>
+            <DropdownMenuItem>
+              Settings
+            </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={doLogout} className='cursor-pointer text-red-600 focus:text-white focus:bg-red-500'>
                 Logout

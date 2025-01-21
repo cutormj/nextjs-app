@@ -51,6 +51,7 @@ export const {
                     name: user.name,
                     email: user.email,
                     image: user.image,
+                    createdAt: new Date(),
                 })
                 console.log("User is added")
             }
