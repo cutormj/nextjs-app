@@ -1,6 +1,8 @@
 import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
+import dbConnect from "@/lib/mongo";
+import User from "@/models/User";
 
 export const {
     handlers: { GET, POST },
@@ -40,6 +42,19 @@ export const {
             // Just allow the sign-in
             console.log("User signed in:", user);
             console.log("User details from provider:", profile);
+            
+            await dbConnect();
+            const existingUser = await User.findOne({ email: user.email })
+
+            if(!existingUser){
+                await User.create({
+                    name: user.name,
+                    email: user.email,
+                    image: user.image,
+                })
+                console.log("User is added")
+            }
+
             return true;
         },
         async session({ session, token }) {
