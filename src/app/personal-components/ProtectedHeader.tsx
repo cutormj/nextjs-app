@@ -9,6 +9,8 @@ import {
     SheetTitle,
     SheetTrigger,
   } from "@/components/ui/sheet"
+import { Button } from '@/components/ui/button';
+import { doLogout } from '@/actions';
   
 
 // const links = [
@@ -90,6 +92,7 @@ const ProtectedHeader: React.FC<ProtectedHeaderProps> = ({ image, name }) => {
                             </SheetHeader>
                         </SheetContent>
                     </Sheet>
+                    <Button onClick={doLogout} className='bg-accent text-accent-foreground hover:bg-destructive  hover:text-accent'>Logout</Button>
 
                     </div>
                     
