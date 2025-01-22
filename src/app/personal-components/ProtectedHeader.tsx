@@ -11,7 +11,8 @@ import {
   } from "@/components/ui/sheet"
 import { Button } from '@/components/ui/button';
 import { doLogout } from '@/actions';
-  
+import ProfileForm from './ProfileForm';  
+// import Profile from './Profile';
 
 // const links = [
 //     { name: 'Open roles', href: '#' },
@@ -32,7 +33,7 @@ interface ProtectedHeaderProps {
     email: string;
 }
 
-const ProtectedHeader: React.FC<ProtectedHeaderProps> = ({ image, name }) => {
+const ProtectedHeader: React.FC<ProtectedHeaderProps> = ({ image, name, email }) => {
     return (
         <div className="relative isolate overflow-hidden bg-gray-900 py-24 sm:py-32 flex flex-col items-center">
             <div
@@ -80,6 +81,7 @@ const ProtectedHeader: React.FC<ProtectedHeaderProps> = ({ image, name }) => {
                         ))}
                     </dl>
                     <div className="grid mt-10 grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold text-white sm:grid-cols-2 md:flex lg:gap-x-10 justify-center">
+                    
                     <Sheet>
                         <SheetTrigger className=''>Edit Profile</SheetTrigger>
                         <SheetContent>
@@ -89,15 +91,16 @@ const ProtectedHeader: React.FC<ProtectedHeaderProps> = ({ image, name }) => {
                                 This action cannot be undone. This will permanently delete your account
                                 and remove your data from our servers.
                             </SheetDescription>
+                            
                             </SheetHeader>
+                            <ProfileForm email={email} />
                         </SheetContent>
                     </Sheet>
                     <Button onClick={doLogout} className='bg-accent text-accent-foreground hover:bg-destructive  hover:text-accent'>Logout</Button>
-
                     </div>
-                    
                 </div>
             </div>
+            {/* <Profile email={email} /> */}
         </div>
     );
 };

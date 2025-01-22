@@ -1,7 +1,6 @@
 'use client';
 
 import ProtectedHeader from '@/app/personal-components/ProtectedHeader';
-// import UserMenu from '@/app/personal-components/UserMenu';
 import { useSession, signIn } from 'next-auth/react';
 import { useEffect } from 'react';
 
@@ -20,12 +19,15 @@ const ProtectedPage: React.FC = () => {
   }
 
   if (session) {
+    
+  console.log("SESSION HERE!!! ", session?.user);
     return (
       <div>
         <ProtectedHeader 
           image={session.user?.image || ''} 
           name={session.user?.name || ''}
           email={session.user?.email || ''}
+          // username={session.user?.username || ''}
         />
         <div className="grid grid-flow-col auto-cols-max">
           <div className='bg-red-600'>01</div>
