@@ -3,13 +3,10 @@
 import React, { useState } from 'react';
 
 interface ProfileFormProps {
-    email: string;
+    username: string;
 }
 
-const ProfileForm: React.FC<ProfileFormProps> = ({ email }) => {
-
-// const ProfileForm = ({uname}) => {
-//   const [username, setUsername] = useState('');
+const ProfileForm: React.FC<ProfileFormProps> = ({ username }) => {
   const [bio, setBio] = useState('');
   const [website, setWebsite] = useState('');
   const [location, setLocation] = useState('');
@@ -23,7 +20,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ email }) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ email, bio, website, location }),
+      body: JSON.stringify({ username, bio, website, location }),
     });
 
     const data = await response.json();
@@ -37,19 +34,6 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ email }) => {
   return (
     <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
       <form onSubmit={handleSubmit}>
-        {/* <div className="mb-4">
-          <label htmlFor="username" className="block text-sm font-medium text-gray-700">
-            Username
-          </label>
-          <input
-            type="text"
-            id="username"
-            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
-        </div> */}
         <div className="mb-4">
           <label htmlFor="bio" className="block text-sm font-medium text-gray-700">
             Bio
