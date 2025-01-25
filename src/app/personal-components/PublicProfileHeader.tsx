@@ -12,9 +12,10 @@ const stats = [
 interface PublicProfileHeaderProps {
   image: string;
   username: string;
+  bio: string;
 }
 
-const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({ image, username }) => {
+const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({ image, username, bio }) => {
   return (
     <header className="relative bg-gray-900 py-24 sm:py-32 flex flex-col items-center">
       <div className="absolute inset-0">
@@ -53,6 +54,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({ image, userna
             @{username}
           </Link>
         </h1>
+        <p className="text-sm text-gray-400 pt-3">{bio}</p>
         <dl className="mt-6 flex flex-wrap justify-center">
           {stats.map((stat) => (
             <div key={stat.name} className="w-1/4 sm:w-1/4 px-2 sm:px-5 text-center">
