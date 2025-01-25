@@ -1,6 +1,7 @@
 'use client';
 
 import ProtectedHeader from '@/app/personal-components/ProtectedHeader';
+import UserLinks from '@/app/personal-components/ProtectedUserLinks';
 import { useSession, signIn } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
 
@@ -79,11 +80,12 @@ const ProtectedPage: React.FC = () => {
           location={profile.location || ''}
           website={profile.website || ''}
         />
-        <div className="grid grid-flow-col auto-cols-max">
+        <UserLinks username={profile.username || ''} />
+        {/* <div className="grid grid-flow-col auto-cols-max">
           <div className='bg-red-600'>01</div>
           <div className='bg-blue-900'>02</div>
           <div className='bg-green-400'>03</div>
-        </div>
+        </div> */}
       </div>
     );
   }
