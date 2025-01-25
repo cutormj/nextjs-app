@@ -96,7 +96,7 @@ const Page: React.FC = () => {
   return (
     <>
       <PublicProfileHeader username={usernameDisplay} image={userImage} bio={bio} />
-      <div className="max-w-2xl mx-auto px-4 py-8">
+      <div className="max-w-2xl mx-auto px-8 py-8">
         {userLinks.length === 0 ? (
           <div className="min-h-screen flex items-center justify-center">
             <p>No links found.</p>
@@ -110,10 +110,6 @@ const Page: React.FC = () => {
               <CardContent>
                 <div className="flex flex-col items-center">
                   <PublicUserLinkImages images={link.images} />
-                  {/* {link.images.length > 0 && (
-                    
-                  
-                  )} */}
                   <a href={link.url} target="_blank" className="text-blue-500 hover:underline">
                     {link.url}
                   </a>
