@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import dbConnect from '@/lib/mongo';
 import User from '@/models/User';
-import Profile from '@/models/Profile';
 
 export async function GET(req: NextRequest) {
+  // Connect to the database
   await dbConnect();
   console.log("Database connected");
 
@@ -12,41 +12,27 @@ export async function GET(req: NextRequest) {
   console.log("THE USERNAME", username);
 
   if (!username) {
-    return NextResponse.json({ success: false, error: 'Username is required' }, { status: 400 });
+    return NextResponse.json({ error: 'Username is required' }, { status: 400 });
   }
 
-  try {
-    // Find user by username and select specific fields
-    const user = await User.findOne({ username }, 'name email username image');
+  // Find the user by username without populating links.groupId
+  const user = await User.findOne({ username });
 
-    if (!user) {
-      return NextResponse.json({ success: false, error: 'User not found' }, { status: 404 });
-    }
-
-    // Find profile by user ID and select specific fields
-    const profile = await Profile.findOne({ userId: user._id }, 'bio website location');
-
-    console.log("Fetched user:", user);
-    console.log("Fetched profile:", profile); // Log the profile information
-
-    return NextResponse.json({
-      success: true,
-      data: {
-        user: {
-          // name: user.name,
-          // email: user.email,
-          username: user.username,
-          image: user.image,
-        },
-        profile: profile ? {
-          bio: profile.bio,
-          website: profile.website,
-          location: profile.location,
-        } : {},
-      },
-    });
-  } catch (error) {
-    console.error("Failed to fetch user:", error);
-    return NextResponse.json({ success: false, error: 'Internal server error' });
+  if (!user) {
+    // If no user is found, return a 404 response
+    return NextResponse.json({ error: 'User not found', username }, { status: 404 });
   }
+
+  // Return the profile data along with the username and additional details
+  return NextResponse.json({
+    username: user.username,
+    email: user.email,
+    name: user.name,
+    image: user.image,
+    role: user.role,
+    profile: user.profile,
+    links: user.links,
+    createdAt: user.createdAt,
+    updatedAt: user.updatedAt,
+  });
 }

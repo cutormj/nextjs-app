@@ -3,7 +3,6 @@ import GoogleProvider from 'next-auth/providers/google';
 import GitHubProvider from 'next-auth/providers/github';
 import dbConnect from '@/lib/mongo';
 import User from '@/models/User';
-import Profile from '@/models/Profile';
 
 export const {
   handlers: { GET, POST },
@@ -59,19 +58,16 @@ export const {
           email: user.email,
           image: user.image,
           username: username,
+          role: 'user', // Set default role to 'user'
+          profile: {
+            bio: 'This is a default bio', // Set a default bio for the profile
+          },
+          links: [], // Initialize with an empty array of links
           createdAt: new Date(),
+          updatedAt: new Date(),
         });
 
-        // Create a profile for the new user
-        await Profile.create({
-          userId: newUser._id,
-          bio: 'This is your bio',
-          website: '',
-          location: '',
-          createdAt: new Date(),
-        });
-
-        console.log('User and profile added');
+        console.log('User and profile added', newUser);
       }
 
       return true;

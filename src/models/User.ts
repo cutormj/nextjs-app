@@ -31,21 +31,10 @@ const ProfileSchema: Schema<IProfile> = new Schema({
 });
 
 const LinkSchema: Schema<ILink> = new Schema({
-  url: {
-    type: String,
-    required: true,
-  },
-  shortDescription: {
-    type: String,
-    required: true,
-  },
-  images: {
-    type: [String],
-  },
-  groupId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'Group',
-  },
+  url: { type: String, required: true },
+  shortDescription: { type: String, required: true },
+  images: { type: [String] },
+  groupId: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' }, // Make sure 'ref' is properly set
 });
 
 const UserSchema: Schema<IUser> = new Schema(

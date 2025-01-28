@@ -1,26 +1,37 @@
 'use client';
 
-import ProtectedHeader from '@/app/personal-components/ProtectedComponents/ProtectedHeader';
-import UserLinks from '@/app/personal-components/ProtectedUserLinks';
+import ProtectedHeader from '@/app/personal-components/Protected/ProtectedHeader';
 import { useSession, signIn } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
 
 interface Profile {
-  userId: string;
   username: string;
-  bio: string;
-  website?: string;
-  location?: string;
+  email: string;
+  name: string;
   image?: string;
-  email?: string;
-  name?: string;
+  role: string;
+  profile: {
+    bio: string;
+    _id: string;
+  };
+  links: Link[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface Link {
+  _id: string;
+  url: string;
+  shortDescription: string;
+  images: string[];
+  groupId: string; // Assuming groupId is a string. Adjust if it is an object or has a different type.
 }
 
 const ProtectedPage: React.FC = () => {
   const { data: session, status } = useSession();
-  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
     if (status === 'unauthenticated') {
@@ -31,7 +42,7 @@ const ProtectedPage: React.FC = () => {
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const response = await fetch(`/api/profile/`, {
+        const response = await fetch('/api/user/', {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -42,7 +53,7 @@ const ProtectedPage: React.FC = () => {
           throw new Error('Failed to fetch profile');
         }
 
-        const data = await response.json();
+        const data: Profile = await response.json();
         setProfile(data);
       } catch (error) {
         if (error instanceof Error) {
@@ -76,16 +87,17 @@ const ProtectedPage: React.FC = () => {
           name={profile.name || session.user?.name || ''}
           email={profile.email || session.user?.email || ''}
           username={profile.username || ''}
-          bio={profile.bio || ''}
-          location={profile.location || ''}
-          website={profile.website || ''}
+          bio={profile.profile.bio || ''}
         />
-        <UserLinks username={profile.username || ''} />
-        {/* <div className="grid grid-flow-col auto-cols-max">
-          <div className='bg-red-600'>01</div>
-          <div className='bg-blue-900'>02</div>
-          <div className='bg-green-400'>03</div>
-        </div> */}
+        <div className="max-w-2xl mx-auto px-4 py-8">
+          <p><strong>Username:</strong> {profile.username}</p>
+          <p><strong>Email:</strong> {profile.email}</p>
+          <p><strong>Name:</strong> {profile.name}</p>
+          <p><strong>Role:</strong> {profile.role}</p>
+          <p><strong>Bio:</strong> {profile.profile.bio}</p>
+          <p><strong>Created At:</strong> {new Date(profile.createdAt).toLocaleString()}</p>
+          <p><strong>Updated At:</strong> {new Date(profile.updatedAt).toLocaleString()}</p>
+        </div>
       </div>
     );
   }
