@@ -2,18 +2,11 @@
 
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import PublicProfileHeader from "../personal-components/PublicProfileHeader";
+import PublicProfileHeader from "../personal-components/PublicComponents/PublicProfileHeader";
 import PageNotFound from "../personal-components/PageNotFound";
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-// import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
-// import {
-//   Carousel,
-//   CarouselContent,
-//   CarouselItem,
-//   CarouselNext,
-//   CarouselPrevious,
-// } from '@/components/ui/carousel';
-import { PublicUserLinkImages } from '../personal-components/PublicUserLinkImages';
+
+import { PublicUserLinkImages } from '../personal-components/PublicComponents/PublicUserLinkImages';
 
 interface UserProfile {
   user: {
@@ -95,7 +88,7 @@ const Page: React.FC = () => {
 
   return (
     <>
-      <PublicProfileHeader username={usernameDisplay} image={userImage} bio={bio} />
+      <PublicProfileHeader username={usernameDisplay} image={userImage} bio={bio} backgroundImage='bg.jpg' />
       <div className="max-w-2xl mx-auto px-8 py-8">
         {userLinks.length === 0 ? (
           <div className="min-h-screen flex items-center justify-center">

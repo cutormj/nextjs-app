@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from '@/components/ui/button';
 import { doLogout } from '@/actions';
-import ProfileForm from './ProfileForm';
+import ProfileForm from '../ProfileForm';
 
 const stats = [
   { name: 'Affiliates', value: '12' },

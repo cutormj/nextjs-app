@@ -1,6 +1,6 @@
 'use client';
 
-import ProtectedHeader from '@/app/personal-components/ProtectedHeader';
+import ProtectedHeader from '@/app/personal-components/ProtectedComponents/ProtectedHeader';
 import UserLinks from '@/app/personal-components/ProtectedUserLinks';
 import { useSession, signIn } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
