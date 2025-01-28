@@ -26,10 +26,10 @@ export async function GET(req: NextRequest) {
   // Return the profile data along with the username and additional details
   return NextResponse.json({
     username: user.username,
-    email: user.email,
-    name: user.name,
+    // email: user.email,
+    // name: user.name,
     image: user.image,
-    role: user.role,
+    // role: user.role,
     profile: user.profile,
     links: user.links,
     createdAt: user.createdAt,

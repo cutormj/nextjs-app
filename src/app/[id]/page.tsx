@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import PageNotFound from "../personal-components/PageNotFound";
 import PublicProfileHeader from '@/app/personal-components/Public/PublicProfileHeader';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+// import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface Profile {
   username: string;
@@ -85,25 +85,7 @@ const Page: React.FC = () => {
           backgroundImage='bg.jpg' 
         />
         <div className="max-w-2xl mx-auto px-4 py-8">
-          <Card>
-            <CardHeader>
-              <CardTitle>Profile Information</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex flex-col items-center">
-                {profile.image && (
-                  <img src={profile.image} alt={`${profile.name}'s profile`} className="rounded-full w-32 h-32 mb-4" />
-                )}
-                <p><strong>Username:</strong> {profile.username}</p>
-                <p><strong>Email:</strong> {profile.email}</p>
-                <p><strong>Name:</strong> {profile.name}</p>
-                <p><strong>Role:</strong> {profile.role}</p>
-                <p><strong>Bio:</strong> {profile.profile.bio}</p>
-                <p><strong>Created At:</strong> {new Date(profile.createdAt).toLocaleString()}</p>
-                <p><strong>Updated At:</strong> {new Date(profile.updatedAt).toLocaleString()}</p>
-              </div>
-            </CardContent>
-          </Card>
+          
         </div>
       </>
     );
