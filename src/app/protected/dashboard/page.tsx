@@ -1,5 +1,6 @@
 'use client';
 
+import Navbar from '@/app/personal-components/Protected/Navbar';
 import ProtectedHeader from '@/app/personal-components/Protected/ProtectedHeader';
 import { useSession, signIn } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
@@ -89,15 +90,7 @@ const ProtectedPage: React.FC = () => {
           username={profile.username || ''}
           bio={profile.profile.bio || ''}
         />
-        <div className="max-w-2xl mx-auto px-4 py-8">
-          <p><strong>Username:</strong> {profile.username}</p>
-          <p><strong>Email:</strong> {profile.email}</p>
-          <p><strong>Name:</strong> {profile.name}</p>
-          <p><strong>Role:</strong> {profile.role}</p>
-          <p><strong>Bio:</strong> {profile.profile.bio}</p>
-          <p><strong>Created At:</strong> {new Date(profile.createdAt).toLocaleString()}</p>
-          <p><strong>Updated At:</strong> {new Date(profile.updatedAt).toLocaleString()}</p>
-        </div>
+        <Navbar username={profile.username || ''} bio={profile.profile.bio || ''} />
       </div>
     );
   }

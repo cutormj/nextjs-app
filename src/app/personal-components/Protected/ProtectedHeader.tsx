@@ -1,17 +1,8 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import React from 'react';
 
-import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from "@/components/ui/sheet";
 import { Button } from '@/components/ui/button';
 import { doLogout } from '@/actions';
-import ProfileForm from '../ProfileForm';
 
 const stats = [
   { name: 'Affiliates', value: '12' },
@@ -87,20 +78,7 @@ const ProtectedHeader: React.FC<ProtectedHeaderProps> = ({ image, username, bio 
             ))}
           </dl>
           <div className="grid mt-10 grid-cols-1 gap-x-8 gap-y-6 text-base/7 font-semibold text-white sm:grid-cols-2 md:flex lg:gap-x-10 justify-center">
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button variant="outline" className='bg-gray-600'>Edit Profile</Button>
-              </SheetTrigger>
-              <SheetContent>
-                <SheetHeader>
-                  <SheetTitle>Edit Profile</SheetTitle>
-                  <SheetDescription>
-                    Update your profile information.
-                  </SheetDescription>
-                </SheetHeader>
-                <ProfileForm username={username} />
-              </SheetContent>
-            </Sheet>
+            
             <Button onClick={doLogout} variant="destructive">Logout</Button>
           </div>
         </div>
@@ -111,3 +89,20 @@ const ProtectedHeader: React.FC<ProtectedHeaderProps> = ({ image, username, bio 
 };
 
 export default ProtectedHeader;
+
+
+
+// <Sheet>
+//               <SheetTrigger asChild>
+//                 <Button variant="outline" className='bg-gray-600'>Edit Profile</Button>
+//               </SheetTrigger>
+//               <SheetContent>
+//                 <SheetHeader>
+//                   <SheetTitle>Edit Profile</SheetTitle>
+//                   <SheetDescription>
+//                     Update your profile information.
+//                   </SheetDescription>
+//                 </SheetHeader>
+//                 <ProfileForm username={username} />
+//               </SheetContent>
+//             </Sheet>
