@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import PageNotFound from "../personal-components/PageNotFound";
 import PublicProfileHeader from '@/app/personal-components/Public/PublicProfileHeader';
+import LinkList from '../personal-components/Public/PublicLinkList';
 // import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 interface Profile {
@@ -84,8 +85,9 @@ const Page: React.FC = () => {
           bio={profile.profile.bio} 
           backgroundImage='bg.jpg' 
         />
+        
         <div className="max-w-2xl mx-auto px-4 py-8">
-          
+        <LinkList username={profile.username} />  
         </div>
       </>
     );

@@ -71,6 +71,7 @@ body {
   }
 }
 
+
 /* styles.css */
 .navbar {
   position: fixed;
@@ -79,6 +80,8 @@ body {
   right: 0;
   background-color: #1F2937; /* Tailwind gray-800 */
   color: white;
+  z-index: 1000; /* Ensure the navbar is on top */
+  height: 60px; /* Set a fixed height for the navbar */
 }
 
 .nav-item {
@@ -111,6 +114,7 @@ body {
     position: fixed;
     top: 0;
     bottom: 0;
+    z-index: 1000; /* Ensure the sidebar is on top */
   }
 
   .sidebar-item {
