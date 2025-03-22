@@ -11,6 +11,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel";
 import Image from "next/image";
+import Link from 'next/link';
 
 interface ILink {
   _id: string;
@@ -35,8 +36,8 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
   const fetchLinks = useCallback(async () => {
     try {
       const response = await fetch(`/api/user/${username}`, {
-        method: 'GET',
-        headers: {
+      method: 'GET',
+      headers: {
           'Content-Type': 'application/json',
         },
       });
@@ -74,21 +75,39 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
       {links.map((link) => (
         <Dialog key={link._id} onOpenChange={() => setSelectedItem(link)}>
-          <DialogTrigger>
-            <Card className="cursor-pointer shadow-md">
-              <Image
-                src={link.images && link.images[0] ? link.images[0] : TEMP_IMAGE_URL}
-                alt={link.shortDescription}
-                width={300}
-                height={200}
-                className="rounded-t-lg"
-              />
-              <CardHeader>
-                <CardTitle>{link.shortDescription}</CardTitle>
-              </CardHeader>
-              <CardContent></CardContent>
-            </Card>
-          </DialogTrigger>
+          <Card className="cursor-pointer shadow-md">
+            <Image
+              src={link.images && link.images[0] ? link.images[0] : TEMP_IMAGE_URL}
+              alt={link.shortDescription}
+              width={300}
+              height={200}
+              className="rounded-t-lg"
+            />
+            <CardHeader>
+              <CardTitle className="text-center">{link.shortDescription}</CardTitle>
+            </CardHeader>
+            <CardContent className="flex flex-col items-center space-y-3">
+              <a
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 bg-black text-white px-4 py-2 rounded hover:bg-gray-600 text-center"
+              >
+                Buy on TikTok
+              </a>
+              {/* Dialog Trigger as Button */}
+              <DialogTrigger asChild>
+                <Link href="#" className='underline'>
+                  More details
+                </Link>
+                {/* <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                  Tell me more
+                </button> */}
+              </DialogTrigger>
+              {/* Buy on TikTok as Button */}
+              
+            </CardContent>
+          </Card>
           <DialogContent>
             {selectedItem && (
               <div>
@@ -116,7 +135,16 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
                   <CarouselPrevious />
                   <CarouselNext />
                 </Carousel>
-                <p className="mt-4 text-center">{selectedItem.url}</p>
+                <p className="mt-4 text-center">
+                  <a
+                    href={selectedItem.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 hover:underline"
+                  >
+                    {selectedItem.url}
+                  </a>
+                </p>
               </div>
             )}
           </DialogContent>

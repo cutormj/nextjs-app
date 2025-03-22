@@ -32,11 +32,11 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({ image, userna
     >
       <div className="absolute inset-0 bg-black opacity-80" /> {/* Overlay for better text visibility */}
       <div className="relative z-10 max-w-2xl mx-auto px-6 lg:px-8 text-center">
-        <Avatar className="w-24 h-24 mb-4 mx-auto">
+        <Avatar className="w-16 h-16 mb-4 mx-auto">
           <AvatarImage src={image} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
-        <div className="text-2xl font-bold text-white sm:text-3xl flex items-center justify-center">
+        <div className="text-1xl font-bold text-white sm:text-2xl md:text-3xl flex items-center justify-center">
           <Link href={`/${username}`} className="hover:underline mr-2">
             @{username}
           </Link>
