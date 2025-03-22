@@ -26,13 +26,13 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'shop.sandisk.com',
         port:'',
-        pathname: ''
+        pathname: '/**',
       },
       {
         protocol: 'https',
         hostname: 'img4.dhresource.com',
         port:'',
-        pathname: ''
+        pathname: '/**',
       },
       {
         protocol: 'https',
