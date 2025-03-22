@@ -36,8 +36,8 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
   const fetchLinks = useCallback(async () => {
     try {
       const response = await fetch(`/api/user/${username}`, {
-      method: 'GET',
-      headers: {
+        method: 'GET',
+        headers: {
           'Content-Type': 'application/json',
         },
       });
@@ -75,13 +75,14 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 p-4">
       {links.map((link) => (
         <Dialog key={link._id} onOpenChange={() => setSelectedItem(link)}>
-          <Card className="cursor-pointer shadow-md">
+          <Card className="cursor-pointer shadow-md w-full max-w-sm mx-auto">
+            {/* Fixed height and width for image */}
             <Image
               src={link.images && link.images[0] ? link.images[0] : TEMP_IMAGE_URL}
               alt={link.shortDescription}
               width={300}
               height={200}
-              className="rounded-t-lg"
+              className="h-48 w-full object-cover rounded-t-lg"
             />
             <CardHeader>
               <CardTitle className="text-center">{link.shortDescription}</CardTitle>
@@ -95,17 +96,12 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
               >
                 Buy on TikTok
               </a>
-              {/* Dialog Trigger as Button */}
+              {/* Dialog Trigger as Link */}
               <DialogTrigger asChild>
-                <Link href="#" className='underline'>
+                <Link href="#" className="underline text-blue-500">
                   More details
                 </Link>
-                {/* <button className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                  Tell me more
-                </button> */}
               </DialogTrigger>
-              {/* Buy on TikTok as Button */}
-              
             </CardContent>
           </Card>
           <DialogContent>
