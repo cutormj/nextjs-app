@@ -24,6 +24,18 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'shop.sandisk.com',
+        port:'',
+        pathname: ''
+      },
+      {
+        protocol: 'https',
+        hostname: 'img4.dhresource.com',
+        port:'',
+        pathname: ''
+      },
+      {
+        protocol: 'https',
         hostname: 'your-domain.com', // For custom images from your domain
         port: '',
         pathname: '/**',
