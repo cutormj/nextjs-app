@@ -3,6 +3,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 import Image from "next/image";
 
 interface ILink {
@@ -84,22 +91,32 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
           </DialogTrigger>
           <DialogContent>
             {selectedItem && (
-              <div className="text-center">
-                <Image
-                  src={
-                    selectedItem.images && selectedItem.images[0]
-                      ? selectedItem.images[0]
-                      : TEMP_IMAGE_URL
-                  }
-                  alt={selectedItem.shortDescription}
-                  width={400}
-                  height={300}
-                  className="mx-auto rounded-md"
-                />
-                <DialogTitle className="text-lg font-bold mt-4">
+              <div>
+                <DialogTitle className="text-lg font-bold mb-4 text-center">
                   {selectedItem.shortDescription ?? "Item Details"}
                 </DialogTitle>
-                <p className="mt-2">{selectedItem.url}</p>
+                <Carousel className="w-full max-w-lg mx-auto">
+                  <CarouselContent>
+                    {(selectedItem.images && selectedItem.images.length > 0 ? selectedItem.images : [TEMP_IMAGE_URL]).map(
+                      (image, index) => (
+                        <CarouselItem key={index}>
+                          <div className="p-1">
+                            <Image
+                              src={image}
+                              alt={selectedItem.shortDescription}
+                              width={400}
+                              height={300}
+                              className="rounded-md"
+                            />
+                          </div>
+                        </CarouselItem>
+                      )
+                    )}
+                  </CarouselContent>
+                  <CarouselPrevious />
+                  <CarouselNext />
+                </Carousel>
+                <p className="mt-4 text-center">{selectedItem.url}</p>
               </div>
             )}
           </DialogContent>
