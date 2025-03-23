@@ -3,10 +3,11 @@ import dbConnect from '@/lib/mongo';
 import User from '@/models/User';
 import { auth } from '@/auth';
 
+// GET Endpoint
 export async function GET() {
   // Connect to the database
   await dbConnect();
-  console.log("Database connected");
+  console.log('Database connected');
 
   const session = await auth();
 
@@ -22,7 +23,7 @@ export async function GET() {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Return the links array
+    // Return the links array, including all fields such as description
     return NextResponse.json(user.links, { status: 200 });
   } catch (error) {
     console.error('Error fetching links:', error);
@@ -30,10 +31,11 @@ export async function GET() {
   }
 }
 
+// POST Endpoint
 export async function POST(req: Request) {
   // Connect to the database
   await dbConnect();
-  console.log("Database connected");
+  console.log('Database connected');
 
   const session = await auth();
 
@@ -42,10 +44,13 @@ export async function POST(req: Request) {
   }
 
   const userEmail = session.user.email;
-  const { url, shortDescription, images, groupId } = await req.json();
+  const { url, shortDescription, description, images, groupId } = await req.json();
 
-  if (!url || !shortDescription) {
-    return NextResponse.json({ error: 'URL and short description are required' }, { status: 400 });
+  if (!url || !shortDescription || !description) {
+    return NextResponse.json(
+      { error: 'URL, short description, and description are required' },
+      { status: 400 }
+    );
   }
 
   try {
@@ -58,6 +63,7 @@ export async function POST(req: Request) {
     const newLink = {
       url,
       shortDescription,
+      description, // Ensure description is added here
       images: images || [],
       groupId: groupId || null,
     };
@@ -65,17 +71,21 @@ export async function POST(req: Request) {
     user.links.push(newLink);
     await user.save();
 
-    return NextResponse.json({ message: 'Link added successfully', link: newLink }, { status: 201 });
+    return NextResponse.json(
+      { message: 'Link added successfully', link: newLink },
+      { status: 201 }
+    );
   } catch (error) {
     console.error('Error adding link:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
 
+// DELETE Endpoint
 export async function DELETE(req: Request) {
   // Connect to the database
   await dbConnect();
-  console.log("Database connected");
+  console.log('Database connected');
 
   const session = await auth();
 
@@ -101,10 +111,12 @@ export async function DELETE(req: Request) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ message: 'Link deleted successfully', links: user.links }, { status: 200 });
+    return NextResponse.json(
+      { message: 'Link deleted successfully', links: user.links },
+      { status: 200 }
+    );
   } catch (error) {
     console.error('Error deleting link:', error);
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }
 }
-

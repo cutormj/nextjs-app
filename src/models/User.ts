@@ -7,6 +7,7 @@ interface IProfile {
 interface ILink {
   url: string;
   shortDescription: string;
+  description: string;
   images: string[];
   groupId: mongoose.Schema.Types.ObjectId;
 }
@@ -33,6 +34,7 @@ const ProfileSchema: Schema<IProfile> = new Schema({
 const LinkSchema: Schema<ILink> = new Schema({
   url: { type: String, required: true },
   shortDescription: { type: String, required: true },
+  description: { type: String, required: true},
   images: { type: [String] },
   groupId: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' }, // Make sure 'ref' is properly set
 });

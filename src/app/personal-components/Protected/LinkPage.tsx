@@ -6,12 +6,14 @@ interface ILink {
   _id: string;
   url: string;
   shortDescription: string;
+  description: string;
   images?: string[];
   groupId?: string;
 }
 
 const LinkPage: React.FC = () => {
   const [url, setUrl] = useState('');
+  const [shortDescription, setShortDescription] = useState('');
   const [description, setDescription] = useState('');
   const [imageLinks, setImageLinks] = useState<string[]>([]);
   const [groupId, setGroupId] = useState('');
@@ -42,13 +44,14 @@ const LinkPage: React.FC = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ url, shortDescription: description, images: imageLinks, groupId }),
+      body: JSON.stringify({ url, shortDescription: shortDescription, description: description, images: imageLinks, groupId }),
     });
 
     const data = await response.json();
     if (data.message === 'Link added successfully') {
       setMessage('Link added successfully!');
       setUrl('');
+      setShortDescription('');
       setDescription('');
       setImageLinks([]);
       setGroupId('');
@@ -91,6 +94,19 @@ const LinkPage: React.FC = () => {
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
               value={url}
               onChange={(e) => setUrl(e.target.value)}
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="shortdescription" className="block text-sm font-medium text-gray-700">
+              Short Description
+            </label>
+            <input
+              type="text"
+              id="shortdescription"
+              className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              value={shortDescription}
+              onChange={(e) => setShortDescription(e.target.value)}
               required
             />
           </div>

@@ -9,6 +9,7 @@ interface ILink {
   _id: string;
   url: string;
   shortDescription: string;
+  description?: string; // Made optional to handle undefined cases
   images?: string[];
 }
 
@@ -19,10 +20,11 @@ interface LinkListProps {
 const TileList: React.FC<LinkListProps> = ({ username }) => {
   const [links, setLinks] = useState<ILink[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] =useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'tile' | 'list'>('list'); // Default to 'list' for mobile
   const [selectedItem, setSelectedItem] = useState<ILink | null>(null);
   const TEMP_IMAGE_URL = "https://picsum.photos/300/200";
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({}); 
 
   const fetchLinks = useCallback(async () => {
     try {
@@ -44,7 +46,7 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
     }
   }, [username]);
 
-  // Detect screen size to set the default view mode
+  // Detect screen size to set default view mode
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
@@ -67,6 +69,13 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
   useEffect(() => {
     fetchLinks();
   }, [fetchLinks]);
+
+  const toggleDescription = (id: string) => {
+    setExpandedDescriptions((prev) => ({
+      ...prev,
+      [id]: !prev[id], // Toggle expanded state for specific item
+    }));
+  };
 
   if (loading) {
     return <p>Loading...</p>;
@@ -189,7 +198,23 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
               </div>
               {/* Description Column */}
               <div className="col-span-3">
-                <p className="text-sm font-bold">{link.shortDescription}</p>
+                <p className="text-sm font-bold">
+                  <strong></strong> {link.shortDescription}
+                </p>
+                <p className="text-sm">
+                  <strong></strong>
+                  {expandedDescriptions[link._id]
+                    ? link.description || "No description available" // Full description or fallback
+                    : `${(link.description || "").slice(0, 50)}...`} {/* Truncated description with fallback */}
+                </p>
+                {link.description && link.description.length > 50 && (
+                  <button
+                    onClick={() => toggleDescription(link._id)}
+                    className="text-blue-500 underline text-xs"
+                  >
+                    {expandedDescriptions[link._id] ? "Show less" : "Read more"}
+                  </button>
+                )}
               </div>
               {/* Actions Column */}
               <div className="col-span-1 flex flex-col gap-2">
@@ -201,52 +226,6 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
                 >
                   Buy on TikTok
                 </a>
-                <Dialog key={link._id} onOpenChange={() => setSelectedItem(link)}>
-                  <DialogTrigger asChild>
-                    <button className="text-xs underline text-blue-500">Read more</button>
-                  </DialogTrigger>
-                  <DialogContent>
-                    {selectedItem && (
-                      <div>
-                        <DialogTitle className="text-lg font-bold mb-4 text-center">
-                          {selectedItem.shortDescription ?? "Item Details"}
-                        </DialogTitle>
-                        <Carousel className="w-full max-w-lg mx-auto">
-                          <CarouselContent>
-                            {(selectedItem.images && selectedItem.images.length > 0
-                              ? selectedItem.images
-                              : [TEMP_IMAGE_URL]
-                            ).map((image, index) => (
-                              <CarouselItem key={index}>
-                                <div className="p-1">
-                                  <Image
-                                    src={image}
-                                    alt={selectedItem.shortDescription}
-                                    width={400}
-                                    height={300}
-                                    className="rounded-md object-cover"
-                                  />
-                                </div>
-                              </CarouselItem>
-                            ))}
-                          </CarouselContent>
-                          <CarouselPrevious />
-                          <CarouselNext />
-                        </Carousel>
-                        <p className="mt-4 text-center">
-                          <a
-                            href={selectedItem.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="text-blue-500 hover:underline"
-                          >
-                            {selectedItem.url}
-                          </a>
-                        </p>
-                      </div>
-                    )}
-                  </DialogContent>
-                </Dialog>
               </div>
             </div>
           ))}
