@@ -32,7 +32,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({ image, userna
     >
       <div className="absolute inset-0 bg-black opacity-80" /> {/* Overlay for better text visibility */}
       <div className="relative z-10 max-w-2xl mx-auto px-6 lg:px-8 text-center">
-        <Avatar className="w-16 h-16 mb-4 mx-auto">
+        <Avatar className="w-16 h-16 mb-1 mx-auto">
           <AvatarImage src={image} />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
@@ -63,7 +63,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({ image, userna
             </Tooltip>
           </TooltipProvider>
         </div>
-        <p className="text-sm text-gray-400 pt-3">{bio}</p>
+        <p className="text-sm text-gray-400 ">{bio}</p>
       </div>
     </header>
   );

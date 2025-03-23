@@ -87,9 +87,9 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
   }
 
   return (
-    <div className="p-4">
+    <div className="px-4 py-2">
       {/* View Mode Buttons */}
-      <div className="flex justify-end mb-4">
+      {/* <div className="flex justify-end mb-4">
         <button
           onClick={() => setViewMode('tile')}
           className={`px-4 py-2 mr-2 rounded ${viewMode === 'tile' ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
@@ -102,7 +102,7 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
         >
           List View
         </button>
-      </div>
+      </div> */}
 
       {/* Render Links Based on View Mode */}
       {viewMode === 'tile' ? (
@@ -183,7 +183,7 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
         {links.map((link) => (
           <div
             key={link._id}
-            className="grid grid-cols-4 gap-3 items-center p-3 border rounded shadow-md"
+            className="grid grid-cols-4 bg-slate-50 gap-3 items-center p-3 border rounded shadow-md"
           >
             {/* Image Column */}
             <div className="col-span-1">
