@@ -36,6 +36,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'm.media-amazon.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'your-domain.com', // For custom images from your domain
         port: '',
         pathname: '/**',
