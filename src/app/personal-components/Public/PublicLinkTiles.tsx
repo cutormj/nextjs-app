@@ -4,6 +4,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Image from "next/image";
+import Link from 'next/link';
 
 interface ILink {
   _id: string;
@@ -179,57 +180,57 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-3">
-          {links.map((link) => (
-            <div
-              key={link._id}
-              className="grid grid-cols-5 gap-3 items-center p-3 border rounded shadow-md"
-            >
-              {/* Image Column */}
-              <div className="col-span-1">
-                <div className="h-20 w-full overflow-hidden rounded">
-                  <Image
-                    src={link.images && link.images[0] ? link.images[0] : TEMP_IMAGE_URL}
-                    alt={link.shortDescription}
-                    width={80}
-                    height={80}
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+        {links.map((link) => (
+          <div
+            key={link._id}
+            className="grid grid-cols-4 gap-3 items-center p-3 border rounded shadow-md"
+          >
+            {/* Image Column */}
+            <div className="col-span-1">
+              <div className="h-full w-full overflow-hidden rounded">
+                <Image
+                  src={link.images && link.images[0] ? link.images[0] : TEMP_IMAGE_URL}
+                  alt={link.shortDescription}
+                  width={80}
+                  height={80}
+                  className="h-full w-full object-cover"
+                />
               </div>
-              {/* Description Column */}
-              <div className="col-span-3">
-                <p className="text-sm font-bold">
-                  <strong></strong> {link.shortDescription}
-                </p>
+            </div>
+
+            {/* Description Column */}
+            <div className="col-span-3">
+              <div>
+                <p className="text-sm font-bold">{link.shortDescription}</p>
                 <p className="text-sm">
-                  <strong></strong>
                   {expandedDescriptions[link._id]
                     ? link.description || "No description available" // Full description or fallback
-                    : `${(link.description || "").slice(0, 50)}...`} {/* Truncated description with fallback */}
+                    : `${(link.description || "").slice(0, 50)}...`} {/* Truncated description */}
+                  {link.description && link.description.length > 50 && (
+                    <button
+                      onClick={() => toggleDescription(link._id)}
+                      className="text-blue-500 underline text-xs"
+                    >
+                      {expandedDescriptions[link._id] ? "Show less" : "Read more"}
+                    </button>
+                  )}
                 </p>
-                {link.description && link.description.length > 50 && (
-                  <button
-                    onClick={() => toggleDescription(link._id)}
-                    className="text-blue-500 underline text-xs"
-                  >
-                    {expandedDescriptions[link._id] ? "Show less" : "Read more"}
-                  </button>
-                )}
               </div>
-              {/* Actions Column */}
-              <div className="col-span-1 flex flex-col gap-2">
-                <a
+              <div className="mt-2">
+                <Link
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="bg-black text-white px-3 py-1 rounded hover:bg-gray-600 text-center text-xs"
+                  className="bg-black text-white px-3 py-1 inline-block rounded hover:bg-gray-600 text-center text-xs"
                 >
                   Buy on TikTok
-                </a>
+                </Link>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>
+
       )}
     </div>
   );
