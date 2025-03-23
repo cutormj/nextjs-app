@@ -27,7 +27,7 @@ const PublicProfileHeader: React.FC<PublicProfileHeaderProps> = ({ image, userna
 
   return (
     <header
-      className="relative bg-gray-900 py-8  flex flex-col items-center"
+      className="relative bg-gray-900 py-4  flex flex-col items-center"
       style={{ backgroundImage: `url(${backgroundImage})`, backgroundSize: 'cover', backgroundPosition: 'center' }} // Set background image
     >
       <div className="absolute inset-0 bg-black opacity-80" /> {/* Overlay for better text visibility */}

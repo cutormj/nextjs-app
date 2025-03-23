@@ -79,7 +79,7 @@ const Page: React.FC = () => {
 
   if (profile) {
     return (
-      <>
+      <div className='bg-slate-100'>
         <PublicProfileHeader 
           username={profile.username} 
           image={profile.image || 'default-image-url.jpg'} // Provide a default image URL
@@ -91,7 +91,7 @@ const Page: React.FC = () => {
         {/* <LinkList username={profile.username} />   */}
         <TileList username={profile.username} />
         </div>
-      </>
+      </div>
     );
   }
 
