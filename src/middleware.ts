@@ -17,7 +17,7 @@ export async function middleware(req: NextRequest) {
 
     // Redirect to the sign-in page if no token and trying to access a protected route
     if (!token && pathname !== '/signin') {
-        return NextResponse.redirect(new URL('/signin', req.url));
+        return NextResponse.redirect(new URL('/', req.url));
     }
 }
 
