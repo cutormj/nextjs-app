@@ -5,7 +5,6 @@ import { auth } from '@/auth';
 
 // GET Endpoint
 export async function GET() {
-  // Connect to the database
   await dbConnect();
   console.log('Database connected');
 
@@ -23,7 +22,6 @@ export async function GET() {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Return the links array, including all fields such as description
     return NextResponse.json(user.links, { status: 200 });
   } catch (error) {
     console.error('Error fetching links:', error);
@@ -33,7 +31,6 @@ export async function GET() {
 
 // POST Endpoint
 export async function POST(req: Request) {
-  // Connect to the database
   await dbConnect();
   console.log('Database connected');
 
@@ -63,7 +60,7 @@ export async function POST(req: Request) {
     const newLink = {
       url,
       shortDescription,
-      description, // Ensure description is added here
+      description,
       images: images || [],
       groupId: groupId || null,
     };
@@ -81,9 +78,58 @@ export async function POST(req: Request) {
   }
 }
 
+// PUT Endpoint (Edit/Modify Link)
+export async function PUT(req: Request) {
+  await dbConnect();
+  console.log('Database connected');
+
+  const session = await auth();
+
+  if (!session || !session.user || !session.user.email) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const userEmail = session.user.email;
+  const { _id, url, shortDescription, description, images, groupId } = await req.json();
+
+  if (!_id || !url || !shortDescription || !description) {
+    return NextResponse.json(
+      { error: 'Link ID, URL, short description, and description are required' },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const user = await User.findOneAndUpdate(
+      { email: userEmail, 'links._id': _id },
+      {
+        $set: {
+          'links.$.url': url,
+          'links.$.shortDescription': shortDescription,
+          'links.$.description': description,
+          'links.$.images': images || [],
+          'links.$.groupId': groupId || null,
+        },
+      },
+      { new: true } // Return the updated document
+    );
+
+    if (!user) {
+      return NextResponse.json({ error: 'User not found or link not found' }, { status: 404 });
+    }
+
+    return NextResponse.json(
+      { message: 'Link updated successfully', links: user.links },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error('Error updating link:', error);
+    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  }
+}
+
 // DELETE Endpoint
 export async function DELETE(req: Request) {
-  // Connect to the database
   await dbConnect();
   console.log('Database connected');
 
