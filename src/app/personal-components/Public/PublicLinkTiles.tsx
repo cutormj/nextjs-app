@@ -88,18 +88,18 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
             </div>
 
             {/* Description */}
-            <div className="mb-3 text-left">
+            <div
+              className="mb-3 text-left cursor-pointer"
+              onClick={() => toggleDescription(link._id)} // Make the entire div clickable
+            >
               <pre style={{ fontFamily: "Arial" }} className="text-sm whitespace-pre-wrap">
                 {expandedDescriptions[link._id]
                   ? link.description || "No description available" // Full description or fallback
                   : `${(link.description || "").slice(0, 50)}...`} {/* Truncated description */}
                 {link.description && link.description.length > 50 && (
-                  <button
-                    onClick={() => toggleDescription(link._id)}
-                    className="text-blue-500 underline text-xs ml-1"
-                  >
+                  <span className="text-blue-500 underline text-xs ml-1">
                     {expandedDescriptions[link._id] ? "Show less" : "Read more"}
-                  </button>
+                  </span>
                 )}
               </pre>
             </div>
