@@ -44,7 +44,7 @@ const LinkPage: React.FC = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ url, shortDescription: shortDescription, description: description, images: imageLinks, groupId }),
+      body: JSON.stringify({ url, shortDescription, description, images: imageLinks, groupId }),
     });
 
     const data = await response.json();
@@ -81,7 +81,6 @@ const LinkPage: React.FC = () => {
 
   return (
     <div className="container mx-auto p-8">
-      {/* <h1 className="text-2xl font-bold mb-4">Add New Link</h1> */}
       <div className="max-w-md mx-auto bg-white p-8 rounded-lg shadow-md">
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -98,12 +97,12 @@ const LinkPage: React.FC = () => {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="shortdescription" className="block text-sm font-medium text-gray-700">
+            <label htmlFor="shortDescription" className="block text-sm font-medium text-gray-700">
               Short Description
             </label>
             <input
               type="text"
-              id="shortdescription"
+              id="shortDescription"
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
               value={shortDescription}
               onChange={(e) => setShortDescription(e.target.value)}
@@ -114,10 +113,10 @@ const LinkPage: React.FC = () => {
             <label htmlFor="description" className="block text-sm font-medium text-gray-700">
               Description
             </label>
-            <input
-              type="text"
+            <textarea
               id="description"
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              rows={5} // Allow multiline input
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               required
@@ -125,14 +124,14 @@ const LinkPage: React.FC = () => {
           </div>
           <div className="mb-4">
             <label htmlFor="imageLinks" className="block text-sm font-medium text-gray-700">
-              Image Links (comma separated)
+              Image Links (comma-separated)
             </label>
-            <input
-              type="text"
+            <textarea
               id="imageLinks"
               className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+              rows={3} // Keep rows small since it’s comma-separated
               value={imageLinks.join(', ')}
-              onChange={(e) => setImageLinks(e.target.value.split(',').map(link => link.trim()))}
+              onChange={(e) => setImageLinks(e.target.value.split(',').map((link) => link.trim()))}
             />
           </div>
           <div className="mb-4">
