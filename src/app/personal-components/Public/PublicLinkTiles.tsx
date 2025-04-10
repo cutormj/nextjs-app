@@ -1,8 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import Image from "next/image";
 import Link from 'next/link';
 
@@ -21,11 +19,9 @@ interface LinkListProps {
 const TileList: React.FC<LinkListProps> = ({ username }) => {
   const [links, setLinks] = useState<ILink[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] =useState<string | null>(null);
-  const [viewMode, setViewMode] = useState<'tile' | 'list'>('list'); // Default to 'list' for mobile
-  const [selectedItem, setSelectedItem] = useState<ILink | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const TEMP_IMAGE_URL = "https://picsum.photos/300/200";
-  const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({}); 
+  const [expandedDescriptions, setExpandedDescriptions] = useState<Record<string, boolean>>({});
 
   const fetchLinks = useCallback(async () => {
     try {
@@ -47,26 +43,6 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
     }
   }, [username]);
 
-  // Detect screen size to set default view mode
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setViewMode('list'); // Mobile devices
-      } else {
-        setViewMode('tile'); // Larger screens
-      }
-    };
-
-    // Set initial mode and listen for resize events
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    // Cleanup listener on component unmount
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
   useEffect(() => {
     fetchLinks();
   }, [fetchLinks]);
@@ -87,151 +63,61 @@ const TileList: React.FC<LinkListProps> = ({ username }) => {
   }
 
   return (
-    <div className="px-4 py-2">
-      {/* View Mode Buttons */}
-      {/* <div className="flex justify-end mb-4">
-        <button
-          onClick={() => setViewMode('tile')}
-          className={`px-4 py-2 mr-2 rounded ${viewMode === 'tile' ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
-        >
-          Tile View
-        </button>
-        <button
-          onClick={() => setViewMode('list')}
-          className={`px-4 py-2 rounded ${viewMode === 'list' ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
-        >
-          List View
-        </button>
-      </div> */}
-
-      {/* Render Links Based on View Mode */}
-      {viewMode === 'tile' ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {links.map((link) => (
-            <Dialog key={link._id} onOpenChange={() => setSelectedItem(link)}>
-              <div className="cursor-pointer shadow-md w-full max-w-sm mx-auto p-4 rounded-md border">
-                <Image
-                  src={link.images && link.images[0] ? link.images[0] : TEMP_IMAGE_URL}
-                  alt={link.shortDescription}
-                  width={300}
-                  height={200}
-                  className="h-48 w-full object-cover rounded-md"
-                />
-                <div className="mt-2">
-                  <p className="font-bold text-center">{link.shortDescription}</p>
-                  <div className="mt-3 flex justify-center space-x-2">
-                    <a
-                      href={link.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="bg-black text-white px-4 py-2 rounded hover:bg-gray-600 text-center text-sm"
-                    >
-                      Buy on TikTok
-                    </a>
-                    <DialogTrigger asChild>
-                      <button className="underline text-blue-500 text-sm">Read more</button>
-                    </DialogTrigger>
-                  </div>
-                </div>
-              </div>
-              <DialogContent>
-                {selectedItem && (
-                  <div>
-                    <DialogTitle className="text-lg font-bold mb-4 text-center">
-                      {selectedItem.shortDescription ?? "Item Details"}
-                    </DialogTitle>
-                    <Carousel className="w-full max-w-lg mx-auto">
-                      <CarouselContent>
-                        {(selectedItem.images && selectedItem.images.length > 0
-                          ? selectedItem.images
-                          : [TEMP_IMAGE_URL]
-                        ).map((image, index) => (
-                          <CarouselItem key={index}>
-                            <div className="p-1">
-                              <Image
-                                src={image}
-                                alt={selectedItem.shortDescription}
-                                width={400}
-                                height={300}
-                                className="rounded-md object-cover"
-                              />
-                            </div>
-                          </CarouselItem>
-                        ))}
-                      </CarouselContent>
-                      <CarouselPrevious />
-                      <CarouselNext />
-                    </Carousel>
-                    <p className="mt-4 text-center">
-                      <a
-                        href={selectedItem.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline"
-                      >
-                        {selectedItem.url}
-                      </a>
-                    </p>
-                  </div>
-                )}
-              </DialogContent>
-            </Dialog>
-          ))}
-        </div>
-      ) : (
-        <div className="grid grid-cols-1 gap-3">
+    <div className="px-4 py-4">
+      {/* Render Links Exclusively in List View */}
+      <div className="grid grid-cols-1 gap-6">
         {links.map((link) => (
           <div
             key={link._id}
-            className="grid grid-cols-4 bg-slate-50 gap-3 items-center p-3 border rounded shadow-md"
+            className="bg-white p-6 border rounded-lg shadow hover:shadow-md transition-shadow flex flex-col items-center"
           >
-            {/* Image Column */}
-            <div className="col-span-1">
-              <div className="h-full w-full overflow-hidden rounded">
-                <Image
-                  src={link.images && link.images[0] ? link.images[0] : TEMP_IMAGE_URL}
-                  alt={link.shortDescription}
-                  width={80}
-                  height={80}
-                  className="h-full w-full object-cover"
-                />
-              </div>
+            {/* Image Section */}
+            <div className="w-full overflow-hidden rounded mb-4 max-w-xs h-auto">
+              <Image
+                src={link.images && link.images[0] ? link.images[0] : TEMP_IMAGE_URL}
+                alt={link.shortDescription}
+                width={300}
+                height={200}
+                className="object-cover w-full"
+              />
             </div>
 
-            {/* Description Column */}
-            <div className="col-span-3">
-              <div>
-                <p className="text-sm font-bold">{link.shortDescription}</p>
-                <p className="text-sm">
-                  {expandedDescriptions[link._id]
-                    ? link.description || "No description available" // Full description or fallback
-                    : `${(link.description || "").slice(0, 50)}...`} {/* Truncated description */}
-                  {link.description && link.description.length > 50 && (
-                    <button
-                      onClick={() => toggleDescription(link._id)}
-                      className="text-blue-500 underline text-xs"
-                    >
-                      {expandedDescriptions[link._id] ? "Show less" : "Read more"}
-                    </button>
-                  )}
-                </p>
-              </div>
-              <div className="mt-2">
-                <Link
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="bg-black text-white px-3 py-1 inline-block rounded hover:bg-gray-600 text-center text-xs"
-                >
-                  Buy on TikTok
-                </Link>
-              </div>
+            {/* Short Description */}
+            <div className="mb-3 text-center">
+              <p className="text-lg font-bold text-gray-800">{link.shortDescription}</p>
+            </div>
+
+            {/* Description */}
+            <div className="mb-3 text-left">
+              <pre style={{ fontFamily: "Arial" }} className="text-sm whitespace-pre-wrap">
+                {expandedDescriptions[link._id]
+                  ? link.description || "No description available" // Full description or fallback
+                  : `${(link.description || "").slice(0, 50)}...`} {/* Truncated description */}
+                {link.description && link.description.length > 50 && (
+                  <button
+                    onClick={() => toggleDescription(link._id)}
+                    className="text-blue-500 underline text-xs ml-1"
+                  >
+                    {expandedDescriptions[link._id] ? "Show less" : "Read more"}
+                  </button>
+                )}
+              </pre>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-end w-full">
+              <Link
+                href={link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-black text-white px-5 py-2 rounded-lg hover:bg-gray-800 transition-colors text-center text-sm"
+              >
+                Buy on TikTok
+              </Link>
             </div>
           </div>
         ))}
       </div>
-
-      )}
     </div>
   );
 };
