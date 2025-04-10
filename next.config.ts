@@ -42,6 +42,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'p.globalsources.com', // For custom images from your domain
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
         hostname: 'your-domain.com', // For custom images from your domain
         port: '',
         pathname: '/**',
