@@ -10,6 +10,8 @@ interface ILink {
   description: string;
   images: string[];
   groupId: mongoose.Schema.Types.ObjectId;
+  top: string;
+  left: string;
 }
 
 interface IUser extends Document {
@@ -34,9 +36,11 @@ const ProfileSchema: Schema<IProfile> = new Schema({
 const LinkSchema: Schema<ILink> = new Schema({
   url: { type: String, required: true },
   shortDescription: { type: String, required: true },
-  description: { type: String, required: true},
+  description: { type: String, required: true },
   images: { type: [String] },
-  groupId: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' }, // Make sure 'ref' is properly set
+  groupId: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' }, // Reference to the Group model
+  top: { type: String, required: true }, // Positioning for popovers (e.g., '50%')
+  left: { type: String, required: true }, // Positioning for popovers (e.g., '25%')
 });
 
 const UserSchema: Schema<IUser> = new Schema(

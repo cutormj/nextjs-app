@@ -11,6 +11,8 @@ interface ILink {
   description: string;
   images?: string[];
   groupId?: string;
+  top: string; // New field for dynamic popover positioning
+  left: string; // New field for dynamic popover positioning
 }
 
 const LinkPage: React.FC = () => {
@@ -19,6 +21,8 @@ const LinkPage: React.FC = () => {
   const [description, setDescription] = useState('');
   const [imageLinks, setImageLinks] = useState<string[]>([]);
   const [groupId, setGroupId] = useState('');
+  const [top, setTop] = useState('50%'); // Initialize default position
+  const [left, setLeft] = useState('50%'); // Initialize default position
   const [editMode, setEditMode] = useState(false); // State to track editing
   const [currentLinkId, setCurrentLinkId] = useState<string | null>(null); // Track the link being edited
 
@@ -50,7 +54,16 @@ const LinkPage: React.FC = () => {
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ url, shortDescription, description, images: imageLinks, groupId, _id: currentLinkId }),
+      body: JSON.stringify({
+        url,
+        shortDescription,
+        description,
+        images: imageLinks,
+        groupId,
+        top,
+        left,
+        _id: currentLinkId,
+      }),
     });
 
     const data = await response.json();
@@ -61,6 +74,8 @@ const LinkPage: React.FC = () => {
       setDescription('');
       setImageLinks([]);
       setGroupId('');
+      setTop('50%');
+      setLeft('50%');
       setEditMode(false);
       setCurrentLinkId(null);
       fetchLinks(); // Refresh links after adding or updating
@@ -77,6 +92,8 @@ const LinkPage: React.FC = () => {
     setDescription(link.description);
     setImageLinks(link.images || []);
     setGroupId(link.groupId || '');
+    setTop(link.top || '50%');
+    setLeft(link.left || '50%');
   };
 
   const handleCancelEdit = () => {
@@ -87,6 +104,8 @@ const LinkPage: React.FC = () => {
     setDescription('');
     setImageLinks([]);
     setGroupId('');
+    setTop('50%');
+    setLeft('50%');
     setMessage(''); // Clear any messages
   };
 
@@ -205,12 +224,38 @@ const LinkPage: React.FC = () => {
                 onChange={(e) => setGroupId(e.target.value)}
               />
             </div>
+            <div className="mb-4">
+              <label htmlFor="top" className="block text-sm font-medium text-gray-700">
+                Top Position (% or px)
+              </label>
+              <input
+                type="text"
+                id="top"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                value={top}
+                onChange={(e) => setTop(e.target.value)}
+                required
+              />
+            </div>
+            <div className="mb-4">
+              <label htmlFor="left" className="block text-sm font-medium text-gray-700">
+                Left Position (% or px)
+              </label>
+              <input
+                type="text"
+                id="left"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                value={left}
+                onChange={(e) => setLeft(e.target.value)}
+                required
+              />
+            </div>
             <div className="flex justify-between items-center">
               <button
                 type="submit"
                 className="w-full py-2 px-4 bg-blue-600 text-white rounded-md hover:bg-blue-700"
               >
-                {editMode ? 'Update Link' : 'Add Link'}
+                                {editMode ? 'Update Link' : 'Add Link'}
               </button>
               {editMode && (
                 <button

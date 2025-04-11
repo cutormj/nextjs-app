@@ -29,7 +29,7 @@ export async function GET() {
   }
 }
 
-// POST Endpoint
+// POST Endpoint (Add Link)
 export async function POST(req: Request) {
   await dbConnect();
   console.log('Database connected');
@@ -41,11 +41,11 @@ export async function POST(req: Request) {
   }
 
   const userEmail = session.user.email;
-  const { url, shortDescription, description, images, groupId } = await req.json();
+  const { url, shortDescription, description, images, groupId, top, left } = await req.json();
 
-  if (!url || !shortDescription || !description) {
+  if (!url || !shortDescription || !description || !top || !left) {
     return NextResponse.json(
-      { error: 'URL, short description, and description are required' },
+      { error: 'URL, short description, description, top, and left positions are required' },
       { status: 400 }
     );
   }
@@ -63,6 +63,8 @@ export async function POST(req: Request) {
       description,
       images: images || [],
       groupId: groupId || null,
+      top,
+      left,
     };
 
     user.links.push(newLink);
@@ -90,11 +92,11 @@ export async function PUT(req: Request) {
   }
 
   const userEmail = session.user.email;
-  const { _id, url, shortDescription, description, images, groupId } = await req.json();
+  const { _id, url, shortDescription, description, images, groupId, top, left } = await req.json();
 
-  if (!_id || !url || !shortDescription || !description) {
+  if (!_id || !url || !shortDescription || !description || !top || !left) {
     return NextResponse.json(
-      { error: 'Link ID, URL, short description, and description are required' },
+      { error: 'Link ID, URL, short description, description, top, and left positions are required' },
       { status: 400 }
     );
   }
@@ -109,6 +111,8 @@ export async function PUT(req: Request) {
           'links.$.description': description,
           'links.$.images': images || [],
           'links.$.groupId': groupId || null,
+          'links.$.top': top,
+          'links.$.left': left,
         },
       },
       { new: true } // Return the updated document
