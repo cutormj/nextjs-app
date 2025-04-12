@@ -5,11 +5,11 @@ import User from '@/models/User';
 export async function GET(req: NextRequest) {
   // Connect to the database
   await dbConnect();
-  console.log("Database connected");
+  console.log('Database connected');
 
   // Extract the username from the request URL
   const username = req.nextUrl.pathname.split('/').pop();
-  console.log("THE USERNAME", username);
+  console.log('THE USERNAME', username);
 
   if (!username) {
     return NextResponse.json({ error: 'Username is required' }, { status: 400 });
@@ -23,13 +23,11 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'User not found', username }, { status: 404 });
   }
 
-  // Return the profile data along with the username and additional details
+  // Return the profile data along with the username, hotspotImage, and additional details
   return NextResponse.json({
     username: user.username,
-    // email: user.email,
-    // name: user.name,
     image: user.image,
-    // role: user.role,
+    hotspotImage: user.hotspotImage, // Added hotspotImage to the response
     profile: user.profile,
     links: user.links,
     createdAt: user.createdAt,
