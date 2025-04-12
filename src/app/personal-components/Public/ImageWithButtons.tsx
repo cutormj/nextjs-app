@@ -33,7 +33,6 @@ const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({ links, hotspotImage
         objectFit="cover"
         objectPosition="center"
         priority
-        className="rounded-lg"
       />
 
       {/* Map provided links into popover buttons */}
