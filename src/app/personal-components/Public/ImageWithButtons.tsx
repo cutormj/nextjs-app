@@ -21,13 +21,13 @@ interface ImageWithButtonsProps {
 }
 
 const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({ links, hotspotImage }) => {
-  const DEFAULT_IMAGE = hotspotImage; // Path to your placeholder image
+  const DEFAULT_IMAGE = "placeholder-image.jpg"; // Path to your placeholder image
 
   return (
     <div className="relative w-full h-screen">
       {/* Background Image */}
       <Image
-        src="/me.jpg" // Replace with your image path
+        src={hotspotImage} // Replace with your image path
         alt="Background Image"
         layout="fill"
         objectFit="cover"
