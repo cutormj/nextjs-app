@@ -41,11 +41,11 @@ export async function POST(req: Request) {
   }
 
   const userEmail = session.user.email;
-  const { url, shortDescription, description, images, groupId, top, left } = await req.json();
+  const { url, shortDescription, description, images, groupId, top, left, hashtags } = await req.json();
 
-  if (!url || !shortDescription || !description || !top || !left) {
+  if (!url || !shortDescription || !description || !top || !left || !hashtags) {
     return NextResponse.json(
-      { error: 'URL, short description, description, top, and left positions are required' },
+      { error: 'URL, short description, description, top, left positions, and hashtags  are required' },
       { status: 400 }
     );
   }
@@ -65,6 +65,7 @@ export async function POST(req: Request) {
       groupId: groupId || null,
       top,
       left,
+      hashtags: hashtags || [], // Include hashtags in the request payload
     };
 
     user.links.push(newLink);
@@ -92,11 +93,11 @@ export async function PUT(req: Request) {
   }
 
   const userEmail = session.user.email;
-  const { _id, url, shortDescription, description, images, groupId, top, left } = await req.json();
+  const { _id, url, shortDescription, description, images, groupId, top, left, hashtags } = await req.json();
 
-  if (!_id || !url || !shortDescription || !description || !top || !left) {
+  if (!_id || !url || !shortDescription || !description || !top || !left || !hashtags) {
     return NextResponse.json(
-      { error: 'Link ID, URL, short description, description, top, and left positions are required' },
+      { error: 'Link ID, URL, short description, description, top, and left positions, hashtags are required' },
       { status: 400 }
     );
   }
@@ -113,6 +114,7 @@ export async function PUT(req: Request) {
           'links.$.groupId': groupId || null,
           'links.$.top': top,
           'links.$.left': left,
+          'links.$.hashtags': hashtags || [],
         },
       },
       { new: true } // Return the updated document

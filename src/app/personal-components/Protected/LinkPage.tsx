@@ -13,6 +13,7 @@ interface ILink {
   groupId?: string;
   top: string; // New field for dynamic popover positioning
   left: string; // New field for dynamic popover positioning
+  hashtags?: string[];
 }
 
 const LinkPage: React.FC = () => {
@@ -23,6 +24,7 @@ const LinkPage: React.FC = () => {
   const [groupId, setGroupId] = useState('');
   const [top, setTop] = useState('50%'); // Initialize default position
   const [left, setLeft] = useState('50%'); // Initialize default position
+  const [linkHashtags, setLinkHashtags] = useState<string[]>([]);
   const [editMode, setEditMode] = useState(false); // State to track editing
   const [currentLinkId, setCurrentLinkId] = useState<string | null>(null); // Track the link being edited
 
@@ -62,6 +64,7 @@ const LinkPage: React.FC = () => {
         groupId,
         top,
         left,
+        hashtags: linkHashtags,
         _id: currentLinkId,
       }),
     });
@@ -76,6 +79,7 @@ const LinkPage: React.FC = () => {
       setGroupId('');
       setTop('50%');
       setLeft('50%');
+      setLinkHashtags([]);
       setEditMode(false);
       setCurrentLinkId(null);
       fetchLinks(); // Refresh links after adding or updating
@@ -94,6 +98,7 @@ const LinkPage: React.FC = () => {
     setGroupId(link.groupId || '');
     setTop(link.top || '50%');
     setLeft(link.left || '50%');
+    setLinkHashtags(link.hashtags || []);
   };
 
   const handleCancelEdit = () => {
@@ -106,6 +111,7 @@ const LinkPage: React.FC = () => {
     setGroupId('');
     setTop('50%');
     setLeft('50%');
+    setLinkHashtags([]);
     setMessage(''); // Clear any messages
   };
 
@@ -130,6 +136,14 @@ const LinkPage: React.FC = () => {
   const handleImageLinksChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     const linksArray = event.target.value.split(',').map((link) => link.trim());
     setImageLinks(linksArray);
+  };
+
+  const handleHashtagsChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const hashtagsArray = event.target.value
+      .split(' ') // Split by spaces
+      .map((hashtag) => hashtag.trim()) // Trim whitespace
+      .filter((hashtag) => hashtag.startsWith('#') && hashtag.length > 1); // Keep only valid hashtags
+    setLinkHashtags(hashtagsArray); // Set the hashtags state
   };
 
   return (
@@ -212,6 +226,20 @@ const LinkPage: React.FC = () => {
               </div>
 
             </div>
+
+            <div className="mb-4">
+              <label htmlFor="hashtags" className="block text-sm font-medium text-gray-700">
+                Hashtags (e.g., #test #sample #fyp)
+              </label>
+              <textarea
+                id="hashtags"
+                className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+                rows={2}
+                onChange={handleHashtagsChange}
+                placeholder="hashtags"
+              />
+            </div>                
+
             <div className="mb-4">
               <label htmlFor="groupId" className="block text-sm font-medium text-gray-700">
                 Group ID (optional)
@@ -276,24 +304,45 @@ const LinkPage: React.FC = () => {
           <h2 className="text-xl font-bold mb-2">Your Links</h2>
           <ul className="flex flex-col space-y-4">
             {links.map((link) => (
-              <li key={link._id} className="flex justify-between items-center">
-                <a href={link.url} target="_blank" rel="noopener noreferrer" className="text-blue-500">
-                  {link.shortDescription}
-                </a>
-                <div className="flex space-x-2">
-                  <button
-                    onClick={() => handleEdit(link)}
-                    className="py-1 px-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700"
+              <li key={link._id} className="flex flex-col">
+                {/* Link URL */}
+                <div className="flex justify-between items-center">
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-500 font-medium"
                   >
-                    Edit
-                  </button>
-                  <button
-                    onClick={() => handleDelete(link._id)}
-                    className="py-1 px-2 bg-red-600 text-white rounded-md hover:bg-red-700"
-                  >
-                    Delete
-                  </button>
+                    {link.shortDescription}
+                  </a>
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleEdit(link)}
+                      className="py-1 px-2 bg-yellow-600 text-white rounded-md hover:bg-yellow-700"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(link._id)}
+                      className="py-1 px-2 bg-red-600 text-white rounded-md hover:bg-red-700"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
+                {/* Hashtags */}
+                {link.hashtags && link.hashtags.length > 0 && (
+                  <div className="mt-2 text-gray-600 text-sm flex flex-wrap gap-2">
+                    {link.hashtags.map((hashtag, index) => (
+                      <span
+                        key={index}
+                        className="bg-gray-200 text-gray-800 px-2 py-1 rounded-md text-xs"
+                      >
+                        {hashtag}
+                      </span>
+                    ))}
+                  </div>
+                )}
               </li>
             ))}
           </ul>

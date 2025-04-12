@@ -12,6 +12,7 @@ interface ILink {
   groupId: mongoose.Schema.Types.ObjectId;
   top: string;
   left: string;
+  hashtags: string[];
 }
 
 interface IUser extends Document {
@@ -38,9 +39,10 @@ const LinkSchema: Schema<ILink> = new Schema({
   shortDescription: { type: String, required: true },
   description: { type: String, required: true },
   images: { type: [String] },
-  groupId: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' }, // Reference to the Group model
-  top: { type: String, required: true }, // Positioning for popovers (e.g., '50%')
-  left: { type: String, required: true }, // Positioning for popovers (e.g., '25%')
+  groupId: { type: mongoose.Schema.Types.ObjectId, ref: 'Group' },
+  top: { type: String, required: true },
+  left: { type: String, required: true },
+  hashtags: { type: [String], default: [] }, // New field for storing hashtags
 });
 
 const UserSchema: Schema<IUser> = new Schema(
