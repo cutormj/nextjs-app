@@ -5,17 +5,20 @@ import React, { useState, useEffect } from 'react';
 interface ProfileFormProps {
   initialUsername: string;
   initialBio: string;
+  initialHotspotImage: string; // New prop for hotspotImage
 }
 
-const ProfileForm: React.FC<ProfileFormProps> = ({ initialUsername, initialBio }) => {
+const ProfileForm: React.FC<ProfileFormProps> = ({ initialUsername, initialBio, initialHotspotImage }) => {
   const [username, setUsername] = useState<string>(initialUsername);
   const [bio, setBio] = useState<string>(initialBio);
+  const [hotspotImage, setHotspotImage] = useState<string>(initialHotspotImage); // State for hotspotImage
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
     setUsername(initialUsername);
     setBio(initialBio);
-  }, [initialUsername, initialBio]);
+    setHotspotImage(initialHotspotImage); // Initialize hotspotImage state
+  }, [initialUsername, initialBio, initialHotspotImage]);
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -25,7 +28,7 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ initialUsername, initialBio }
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ username, bio }),
+      body: JSON.stringify({ username, bio, hotspotImage }), // Include hotspotImage in the payload
     });
 
     const data = await response.json();
@@ -61,6 +64,19 @@ const ProfileForm: React.FC<ProfileFormProps> = ({ initialUsername, initialBio }
             className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
             value={bio}
             onChange={(e) => setBio(e.target.value)}
+            required
+          />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="hotspotImage" className="block text-sm font-medium text-gray-700">
+            Hotspot Image URL
+          </label>
+          <input
+            type="text"
+            id="hotspotImage"
+            className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
+            value={hotspotImage}
+            onChange={(e) => setHotspotImage(e.target.value)}
             required
           />
         </div>

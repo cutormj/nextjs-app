@@ -20,6 +20,7 @@ interface IUser extends Document {
   email: string;
   username: string;
   image?: string;
+  hotspotImage: string;
   role: 'user' | 'admin';
   profile: IProfile;
   links: ILink[];
@@ -60,6 +61,10 @@ const UserSchema: Schema<IUser> = new Schema(
       type: String,
       required: true,
       unique: true,
+    },
+    hotspotImage: {
+      type: String,
+      required: false,
     },
     image: String,
     role: {

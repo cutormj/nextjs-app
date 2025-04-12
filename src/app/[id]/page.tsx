@@ -11,6 +11,7 @@ interface Profile {
   email: string;
   name: string;
   image?: string;
+  hotspotImage: string;
   role: string;
   profile: {
     bio: string;
@@ -111,7 +112,7 @@ const Page: React.FC = () => {
     return (
       <div className="bg-slate-100 min-h-screen">
         {/* Pass only links with #favorites to GridLayout */}
-        <ImageWithButtons links={favoriteLinks} />
+        <ImageWithButtons links={favoriteLinks} hotspotImage={profile.hotspotImage} />
 
         {/* Hashtag Tabs */}
         <div className="bg-white shadow-md py-3 px-5 mb-1 flex flex-wrap justify-center gap-3">

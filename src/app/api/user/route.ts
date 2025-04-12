@@ -6,7 +6,7 @@ import { auth } from '@/auth';
 export async function GET() {
   // Connect to the database
   await dbConnect();
-  console.log("Database connected");
+  console.log('Database connected');
 
   // Get the session object
   const session = await auth();
@@ -26,12 +26,13 @@ export async function GET() {
     return NextResponse.json({ error: 'User not found', userEmail }, { status: 404 });
   }
 
-  // Return the profile data along with the username and additional details
+  // Return the profile data along with the username, hotspotImage, and additional details
   return NextResponse.json({
     username: user.username,
     email: user.email,
     name: user.name,
     image: user.image,
+    hotspotImage: user.hotspotImage, // Include hotspotImage in the response
     role: user.role,
     profile: user.profile,
     links: user.links,
@@ -43,7 +44,7 @@ export async function GET() {
 export async function PUT(req: Request) {
   // Connect to the database
   await dbConnect();
-  console.log("Database connected");
+  console.log('Database connected');
 
   const session = await auth();
 
@@ -53,7 +54,7 @@ export async function PUT(req: Request) {
   }
 
   const userEmail = session.user.email;
-  const { username, bio } = await req.json();
+  const { username, bio, hotspotImage } = await req.json(); // Accept hotspotImage in the request body
 
   if (!username || !bio) {
     return NextResponse.json({ error: 'Username and bio are required' }, { status: 400 });
@@ -68,6 +69,11 @@ export async function PUT(req: Request) {
 
     user.username = username;
     user.profile.bio = bio;
+
+    // Update hotspotImage if provided
+    if (hotspotImage) {
+      user.hotspotImage = hotspotImage;
+    }
 
     await user.save();
 

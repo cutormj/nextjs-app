@@ -1,12 +1,19 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Link from 'next/link';
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog'; // Import shadcn dialog components
+import ProfileForm from '@/app/personal-components/Protected/ProfileForm';
 
 interface NavbarProps {
   username: string;
   bio: string;
+  hotspotImage: string;
 }
 
-const Navbar: React.FC<NavbarProps> = ({}) => {
+const Navbar: React.FC<NavbarProps> = ({ username, bio, hotspotImage }) => {
+  const [isDialogOpen, setIsDialogOpen] = useState<boolean>(false); // Track the dialog state
+
   return (
     <div>
       {/* Bottom Navbar */}
@@ -39,14 +46,28 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
             </div>
           </Link>
 
-          <Link href="/profile">
-            <div className="flex flex-col items-center cursor-pointer">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
-              </svg>
-              <span className="text-xs">Profile</span>
-            </div>
-          </Link>
+          {/* Profile option triggers the dialog */}
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <div
+                className="flex flex-col items-center cursor-pointer"
+                onClick={() => setIsDialogOpen(true)} // Open the dialog
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4" />
+                </svg>
+                <span className="text-xs">Profile</span>
+              </div>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogTitle>Edit Profile</DialogTitle>
+              <DialogDescription>
+                Update your username and bio below.
+              </DialogDescription>
+              {/* Render ProfileForm inside the dialog */}
+              <ProfileForm initialUsername={username} initialBio={bio} initialHotspotImage={hotspotImage} />
+            </DialogContent>
+          </Dialog>
         </nav>
       </div>
     </div>

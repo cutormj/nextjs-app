@@ -12,6 +12,7 @@ interface Profile {
   name: string;
   image?: string;
   role: string;
+  hotspotImage: string; // Added hotspotImage to the Profile interface
   profile: {
     bio: string;
     _id: string;
@@ -84,14 +85,18 @@ const ProtectedPage: React.FC = () => {
   if (session && profile) {
     return (
       <div>
-        <ProtectedHeader 
-          image={profile.image || session.user?.image || ''} 
+        <ProtectedHeader
+          image={profile.image || session.user?.image || ''}
           name={profile.name || session.user?.name || ''}
           email={profile.email || session.user?.email || ''}
           username={profile.username || ''}
           bio={profile.profile.bio || ''}
         />
-        <Navbar username={profile.username || ''} bio={profile.profile.bio || ''} />
+        <Navbar
+          username={profile.username || ''}
+          bio={profile.profile.bio || ''}
+          hotspotImage={profile.hotspotImage || ''} // Pass hotspotImage to the Navbar component
+        />
       </div>
     );
   }

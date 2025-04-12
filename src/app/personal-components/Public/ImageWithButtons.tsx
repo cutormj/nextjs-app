@@ -17,10 +17,11 @@ interface ILink {
 interface ImageWithButtonsProps {
   // username: string; // Accepts username dynamically as a prop
   links: ILink[]; // Passes links directly as props
+  hotspotImage: string;
 }
 
-const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({ links }) => {
-  const DEFAULT_IMAGE = '/placeholder-image.jpg'; // Path to your placeholder image
+const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({ links, hotspotImage }) => {
+  const DEFAULT_IMAGE = hotspotImage; // Path to your placeholder image
 
   return (
     <div className="relative w-full h-screen">
@@ -48,19 +49,19 @@ const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({ links }) => {
             >
               {/* Button */}
               <button
-                className="w-12 h-12 bg-red-700 text-white text-2xl font-bold rounded-full shadow-md hover:bg-red-600 focus:outline-none group-hover:scale-105 transition-transform"
+                className="w-8 h-8 bg-red-700 text-white text-1xl  rounded-full shadow-md hover:bg-red-600 focus:outline-none group-hover:scale-105 transition-transform"
               >
                 +
               </button>
             </div>
           </PopoverTrigger>
           <PopoverContent
-            className="bg-red-700 text-white shadow-xl rounded-lg p-4 max-w-sm"
+            className="bg-red-700 text-white shadow-xl rounded-lg p-4 "
             align="center"
             sideOffset={8}
           >
             {/* Display the image dynamically */}
-            <div className="relative w-full h-40 mb-3">
+            <div className="relative w-40 h-40 mb-3">
               <Image
                 src={link.images && link.images[0] ? link.images[0] : DEFAULT_IMAGE}
                 alt={link.shortDescription}
@@ -69,7 +70,7 @@ const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({ links }) => {
                 className="rounded-md"
               />
             </div>
-            <h3 className="font-bold text-lg mb-2">{link.shortDescription}</h3>
+            <p className="font-bold text-xs text-center mb-2">{link.shortDescription}</p>
             <a
               href={link.url}
               target="_blank"
