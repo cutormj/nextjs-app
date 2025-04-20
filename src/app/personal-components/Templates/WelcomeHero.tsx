@@ -1,10 +1,9 @@
 import React from "react";
 import Image from "next/image";
 
-interface SkillElevationHeroProps {
+interface WelcomeHeroProps {
   title: string;
   description: string;
-  stats: { icon: string; label: string }[];
   imageUrl: string;
   link: {
     label: string;
@@ -21,18 +20,27 @@ interface SkillElevationHeroProps {
   };
 }
 
-const SkillElevationHero: React.FC<SkillElevationHeroProps> = ({ title, description, stats, imageUrl, link, colors }) => {
+const WelcomeHero: React.FC<WelcomeHeroProps> = ({ title, description, imageUrl, link, colors }) => {
   return (
     <section
-      className="hero-section flex flex-col lg:flex-row items-center text-center lg:text-left py-16 px-8 bg-cover bg-center"
+      className="hero-section relative flex flex-col lg:flex-row items-center text-center lg:text-left py-16 px-8 bg-cover bg-center"
       style={{
-        backgroundImage: "url('https://i.pinimg.com/736x/98/b8/e3/98b8e37e267aa0b065811af6f507b3ed.jpg')", // Replace with your background image URL
+        backgroundImage: "url('https://i.pinimg.com/736x/45/03/37/4503371bd9886e3713c21dbd55759355.jpg')", // Replace with your background image URL
         backgroundColor: colors.background, // Fallback background color
         color: colors.textPrimary,
       }}
     >
+      {/* Overlay */}
+      <div
+        className="absolute inset-0 bg-yellow-50 opacity-50 z-0"
+        style={{
+          backgroundColor: colors.background, // Use the background color for the overlay
+          opacity: 0.7, // Adjust the opacity to lighten the background
+        }}
+      ></div>
+
       {/* Left Section: Text and Buttons */}
-      <div className="lg:w-1/2 flex flex-col items-center lg:items-start lg:ml-20 px-8">
+      <div className="lg:w-1/2 flex flex-col items-center lg:items-start lg:ml-20 px-8 z-10">
         <div className="max-w-2xl">
           <h1 className="text-4xl font-bold" style={{ color: colors.textPrimary }}>
             {title}
@@ -40,14 +48,6 @@ const SkillElevationHero: React.FC<SkillElevationHeroProps> = ({ title, descript
           <p className="mt-4 text-lg" style={{ color: colors.textSecondary }}>
             {description}
           </p>
-          <div className="mt-8 flex justify-center lg:justify-start gap-8" style={{ color: colors.textSecondary }}>
-            {stats.map((stat, index) => (
-              <div key={index} className="flex items-center gap-2">
-                <span className="text-xl">{stat.icon}</span>
-                <span>{stat.label}</span>
-              </div>
-            ))}
-          </div>
           {/* Action Link */}
           <div className="mt-6">
             <a
@@ -62,11 +62,11 @@ const SkillElevationHero: React.FC<SkillElevationHeroProps> = ({ title, descript
       </div>
 
       {/* Right Section: Image */}
-      <div className="lg:w-1/2 flex justify-center mt-12 lg:mt-0 px-8">
+      <div className="lg:w-1/2 flex justify-center mt-12 lg:mt-0 px-8 z-10">
         <Image
           src={imageUrl} // Replace with the actual path to your image
           alt="Illustration of a person learning online"
-          width={600} // Adjust width as needed
+          width={400} // Adjust width as needed
           height={600} // Adjust height as needed
           className="rounded-md"
         />
@@ -75,4 +75,4 @@ const SkillElevationHero: React.FC<SkillElevationHeroProps> = ({ title, descript
   );
 };
 
-export default SkillElevationHero;
+export default WelcomeHero;

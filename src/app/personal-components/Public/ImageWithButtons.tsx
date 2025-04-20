@@ -22,6 +22,13 @@ interface ImageWithButtonsProps {
   backgroundImage: string; // Background image for the entire section
   buttonLabel: string; // Label for the action button
   buttonLink: string; // Link for the action button
+  colors: {
+    primary: string;
+    secondary: string;
+    accent: string;
+    textPrimary: string;
+    textSecondary: string;
+  }; // Branding colors
 }
 
 const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({
@@ -32,8 +39,12 @@ const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({
   backgroundImage,
   buttonLabel,
   buttonLink,
+  colors,
 }) => {
   const DEFAULT_IMAGE = "placeholder-image.jpg"; // Path to your placeholder image
+
+  // Generate a random animation delay for each button
+  const getRandomDelay = () => `${Math.random() * 2 + 1}s`; // Random delay between 1s and 3s
 
   return (
     <section
@@ -42,20 +53,35 @@ const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({
         backgroundImage: `url(${backgroundImage || DEFAULT_IMAGE})`, // Apply the background image
         backgroundSize: 'cover',
         backgroundPosition: 'center',
+        color: colors.textPrimary, // Apply text color from branding
       }}
     >
       {/* Dark Overlay */}
-      <div className="absolute inset-0 bg-black bg-opacity-90 z-0"></div>
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          backgroundColor: colors.primary,
+          opacity: 0.9,
+        }}
+      ></div>
 
       {/* Left Section: Text and Action Button */}
       <div className="lg:w-1/2 flex flex-col items-center lg:items-start lg:ml-20 px-8 z-10">
         <div className="max-w-2xl">
-          <h1 className="text-4xl font-bold text-white">{title}</h1>
-          <p className="mt-4 text-lg text-gray-300">{description}</p>
+          <h1 className="text-4xl font-bold" style={{ color: colors.textPrimary }}>
+            {title}
+          </h1>
+          <p className="mt-4 text-lg" style={{ color: colors.textSecondary }}>
+            {description}
+          </p>
           <div className="mt-6">
             <a
               href={buttonLink}
-              className="px-6 py-3 bg-red-600 text-white rounded-lg shadow-md hover:bg-red-700 transition"
+              className="px-6 py-3 rounded-lg shadow-md transition"
+              style={{
+                backgroundColor: colors.accent,
+                color: colors.secondary,
+              }}
             >
               {buttonLabel}
             </a>
@@ -90,14 +116,23 @@ const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({
                 >
                   {/* Button */}
                   <button
-                    className="w-10 h-10 bg-red-600 text-white text-lg rounded-full shadow-md hover:bg-red-500 focus:outline-none group-hover:scale-110 transition-transform"
+                    className="w-4 h-4 text-xs rounded-full shadow-md hover:scale-110 transition-transform animate-blink"
+                    style={{
+                      backgroundColor: colors.accent,
+                      color: colors.secondary,
+                      animationDelay: getRandomDelay(), // Apply random animation delay
+                    }}
                   >
                     +
                   </button>
                 </div>
               </PopoverTrigger>
               <PopoverContent
-                className="bg-white text-gray-800 shadow-xl rounded-lg p-4 w-64"
+                className="shadow-xl rounded-lg p-4 w-64"
+                style={{
+                  backgroundColor: colors.secondary,
+                  color: colors.textPrimary,
+                }}
                 align="center"
                 sideOffset={8}
               >
@@ -116,7 +151,11 @@ const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="block mt-3 text-white bg-red-600 hover:bg-red-700 font-semibold rounded-md px-4 py-2 shadow-md transition duration-200 ease-in-out transform hover:-translate-y-1 hover:scale-105 text-center"
+                  className="block mt-3 font-semibold rounded-md px-4 py-2 shadow-md transition duration-200 ease-in-out transform hover:-translate-y-1 hover:scale-105 text-center"
+                  style={{
+                    backgroundColor: colors.accent,
+                    color: colors.secondary,
+                  }}
                 >
                   🚀 Visit Link
                 </a>

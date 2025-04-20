@@ -2,7 +2,7 @@ import React from "react";
 import Hero from "./Hero";
 import Features from "./Features";
 import Contact from "./Contact";
-import SkillElevationHero from "./SkillElevationHero";
+import WelcomeHero from "./WelcomeHero";
 import ImageWithButtons from "../Public/ImageWithButtons";
 import HashtagTabs from "./HashtagTabs"; // Import HashtagTabs
 import LinksList from "./LinkList"; // Import LinksList
@@ -12,7 +12,7 @@ const componentMap = {
   Hero,
   Features,
   Contact,
-  SkillElevationHero,
+  WelcomeHero: WelcomeHero,
   ImageWithButtons,
   HashtagTabs, // Add HashtagTabs to the map
   LinksList, // Add LinksList to the map

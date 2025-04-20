@@ -34,7 +34,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "src/lib/mongo.js"
-, "src/app/page.jsx", "src/app/[id]/page.jsx"  ],
+, "src/app/page.tsx", "src/app/[id]/page.jsx"  ],
   "exclude": [
     "node_modules"
   ]

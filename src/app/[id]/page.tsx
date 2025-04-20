@@ -45,25 +45,26 @@ const Page: React.FC = () => {
   const [hashtags, setHashtags] = useState<string[]>([]);
 
   const brandingColors = {
-    primary: "#000000", // Black
-    secondary: "#FFFFFF", // White
-    accent: "#CCCCCC", // Light Gray for accents
-    background: "#FFFFFF", // White background
-    textPrimary: "#000000", // Black text
-    textSecondary: "#666666", // Dark Gray for secondary text
+    primary: "#1E293B", // Dark Blue Gray (contrasts well with white)
+    secondary: "#F8FAFC", // White (light background or card color)
+    accent: "#EF4444", // Vibrant Red (for call-to-action elements)
+    background: "#F8FAFC", // Light Gray (subtle page background)
+    textPrimary: "#FFFFFF", // Dark Gray (for headings or main text)
+    textSecondary: "#64748B", // Medium Gray (for subtitles or less prominent text)
   };
 
   const componentsConfig = [
     {
       type: "ImageWithButtons",
       props: {
-        title: "Explore Our Interactive Hotspot", // Title for the section
-        description: "Click on the hotspots to learn more about each item.", // Description for the section
+        title: "Hello, I just wanted to let you know that I’m here.",
+        description: "I hope you’ll find something valuable here. Feel free to explore and see what I have to offer.",
         links: profile?.links.filter((link) => link.hashtags.includes("#favorites")) || [], // Filtered links
         hotspotImage: profile?.hotspotImage || "", // Background image for the right section
         backgroundImage: "https://i.pinimg.com/736x/87/d5/2f/87d52f42221de0c43a6c67c133004fc6.jpg", // Background image for the entire section
         buttonLabel: "Learn More", // Label for the action button
         buttonLink: "/learn-more", // Link for the action button
+        colors: brandingColors, // Pass branding colors
       },
     },
     {
@@ -72,6 +73,7 @@ const Page: React.FC = () => {
         hashtags,
         selectedHashtag,
         setSelectedHashtag,
+        colors: brandingColors, // Pass branding colors
       },
     },
     {
@@ -111,27 +113,30 @@ const Page: React.FC = () => {
             'Content-Type': 'application/json',
           },
         });
-
+  
         if (!response.ok) {
           throw new Error('Failed to fetch profile');
         }
-
+  
         const data: Profile = await response.json();
         setProfile(data);
-
+  
         const allHashtags = data.links.flatMap((link) => link.hashtags || []);
         setHashtags(Array.from(new Set(allHashtags)));
-
+  
         setFilteredLinks(
           data.links.filter((link) => link.hashtags.includes(defaultHashtag)) || []
         );
+  
+        // Dynamically update the document title
+        document.title = `${data.username} - bio`;
       } catch (error) {
         setError(error instanceof Error ? error.message : 'An unknown error occurred');
       } finally {
         setLoading(false);
       }
     };
-
+  
     fetchProfile();
   }, [id]);
 

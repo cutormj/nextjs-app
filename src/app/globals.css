@@ -124,3 +124,15 @@ body {
     padding: 1rem;
   }
 }
+@keyframes blink {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-blink {
+  animation: blink 1.5s infinite; /* Default animation duration */
+}
