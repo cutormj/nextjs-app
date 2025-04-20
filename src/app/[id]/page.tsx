@@ -57,7 +57,7 @@ const Page: React.FC = () => {
     {
       type: "ImageWithButtons",
       props: {
-        title: "Hello, I just wanted to let you know that I’m here.",
+        title: "Hi, just letting you know I’m here.",
         description: "I hope you’ll find something valuable here. Feel free to explore and see what I have to offer.",
         links: profile?.links.filter((link) => link.hashtags.includes("#favorites")) || [], // Filtered links
         hotspotImage: profile?.hotspotImage || "", // Background image for the right section

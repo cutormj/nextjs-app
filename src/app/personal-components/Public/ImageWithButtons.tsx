@@ -68,16 +68,22 @@ const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({
       {/* Left Section: Text and Action Button */}
       <div className="lg:w-1/2 flex flex-col items-center lg:items-start lg:ml-20 px-8 z-10">
         <div className="max-w-2xl">
-          <h1 className="text-4xl font-bold" style={{ color: colors.textPrimary }}>
+          <h1
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold"
+            style={{ color: colors.textPrimary }}
+          >
             {title}
           </h1>
-          <p className="mt-4 text-lg" style={{ color: colors.textSecondary }}>
+          <p
+            className="mt-4 text-base sm:text-lg md:text-xl lg:text-2xl"
+            style={{ color: colors.textSecondary }}
+          >
             {description}
           </p>
           <div className="mt-6">
             <a
               href={buttonLink}
-              className="px-6 py-3 rounded-lg shadow-md transition"
+              className="px-6 py-2 rounded-lg shadow-md transition text-sm sm:text-base md:text-lg lg:text-xl"
               style={{
                 backgroundColor: colors.accent,
                 color: colors.secondary,

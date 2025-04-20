@@ -42,18 +42,29 @@ const WelcomeHero: React.FC<WelcomeHeroProps> = ({ title, description, imageUrl,
       {/* Left Section: Text and Buttons */}
       <div className="lg:w-1/2 flex flex-col items-center lg:items-start lg:ml-20 px-8 z-10">
         <div className="max-w-2xl">
-          <h1 className="text-4xl font-bold" style={{ color: colors.textPrimary }}>
+          <h1
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold"
+            style={{ color: colors.textPrimary }}
+          >
             {title}
           </h1>
-          <p className="mt-4 text-lg" style={{ color: colors.textSecondary }}>
+          <p
+            className="mt-4 text-base sm:text-lg md:text-xl lg:text-2xl"
+            style={{ color: colors.textSecondary }}
+          >
             {description}
           </p>
           {/* Action Link */}
           <div className="mt-6">
             <a
               href={link.href}
-              className="px-6 py-2 rounded hover:opacity-90"
-              style={{ backgroundColor: colors.primary, color: colors.secondary, textDecoration: "none", ...link.style }}
+              className="px-6 py-2 rounded hover:opacity-90 text-sm sm:text-base md:text-lg lg:text-xl"
+              style={{
+                backgroundColor: colors.primary,
+                color: colors.secondary,
+                textDecoration: "none",
+                ...link.style,
+              }}
             >
               {link.label}
             </a>
