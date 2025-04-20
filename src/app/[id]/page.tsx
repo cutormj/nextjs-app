@@ -3,8 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import PageNotFound from '../personal-components/PageNotFound';
-import ImageWithButtons from '../personal-components/Public/ImageWithButtons';
-import Image from 'next/image';
+import TemplateRenderer from '../personal-components/Templates/0TemplateRenderer';
 
 interface Profile {
   username: string;
@@ -35,15 +34,73 @@ interface Link {
 
 const Page: React.FC = () => {
   const params = useParams();
-  const { id } = params; // Extract user ID from URL
+  const { id } = params;
 
-  const defaultHashtag = '#favorites'; // Set your default hashtag here
+  const defaultHashtag = '#favorites';
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
-  const [selectedHashtag, setSelectedHashtag] = useState<string | null>(defaultHashtag); // Use defaultHashtag here
-  const [filteredLinks, setFilteredLinks] = useState<Link[]>([]); // Links filtered by hashtag
-  const [hashtags, setHashtags] = useState<string[]>([]); // All unique hashtags
+  const [selectedHashtag, setSelectedHashtag] = useState<string | null>(defaultHashtag);
+  const [filteredLinks, setFilteredLinks] = useState<Link[]>([]);
+  const [hashtags, setHashtags] = useState<string[]>([]);
+
+  const brandingColors = {
+    primary: "#000000", // Black
+    secondary: "#FFFFFF", // White
+    accent: "#CCCCCC", // Light Gray for accents
+    background: "#FFFFFF", // White background
+    textPrimary: "#000000", // Black text
+    textSecondary: "#666666", // Dark Gray for secondary text
+  };
+
+  const componentsConfig = [
+    {
+      type: "ImageWithButtons",
+      props: {
+        title: "Explore Our Interactive Hotspot", // Title for the section
+        description: "Click on the hotspots to learn more about each item.", // Description for the section
+        links: profile?.links.filter((link) => link.hashtags.includes("#favorites")) || [], // Filtered links
+        hotspotImage: profile?.hotspotImage || "", // Background image for the right section
+        backgroundImage: "https://i.pinimg.com/736x/87/d5/2f/87d52f42221de0c43a6c67c133004fc6.jpg", // Background image for the entire section
+        buttonLabel: "Learn More", // Label for the action button
+        buttonLink: "/learn-more", // Link for the action button
+      },
+    },
+    {
+      type: "HashtagTabs",
+      props: {
+        hashtags,
+        selectedHashtag,
+        setSelectedHashtag,
+      },
+    },
+    {
+      type: "LinksList",
+      props: {
+        filteredLinks,
+      },
+    },
+    {
+      type: "SkillElevationHero",
+      props: {
+        title: "Develop Your Skills in a New and Unique Way",
+        description:
+          "Transform your expertise with our curated courses, designed for interactive and engaging learning experiences.",
+        stats: [
+          { icon: "📚", label: "50+ Online Courses" },
+          { icon: "👥", label: "10k+ Online Students" },
+        ],
+        imageUrl: "https://i.pinimg.com/736x/c8/62/28/c86228c22a42eec00a9bed2d84642dab.jpg",
+        link: {
+          label: "Explore Courses",
+          href: "/courses",
+          style: { borderRadius: "8px" },
+        },
+        colors: brandingColors,
+      },
+    },
+    // Other components...
+  ];
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -62,20 +119,14 @@ const Page: React.FC = () => {
         const data: Profile = await response.json();
         setProfile(data);
 
-        // Extract unique hashtags from all links
         const allHashtags = data.links.flatMap((link) => link.hashtags || []);
-        setHashtags(Array.from(new Set(allHashtags))); // Remove duplicates
+        setHashtags(Array.from(new Set(allHashtags)));
 
-        // Filter links by the default selected hashtag
         setFilteredLinks(
           data.links.filter((link) => link.hashtags.includes(defaultHashtag)) || []
         );
       } catch (error) {
-        if (error instanceof Error) {
-          setError(error.message);
-        } else {
-          setError('An unknown error occurred');
-        }
+        setError(error instanceof Error ? error.message : 'An unknown error occurred');
       } finally {
         setLoading(false);
       }
@@ -84,12 +135,11 @@ const Page: React.FC = () => {
     fetchProfile();
   }, [id]);
 
-  // Filter links by the currently selected hashtag
   useEffect(() => {
     if (selectedHashtag) {
       setFilteredLinks(
         selectedHashtag === 'All'
-          ? profile?.links || [] // Show all links if "All" is selected
+          ? profile?.links || []
           : profile?.links.filter((link) => link.hashtags.includes(selectedHashtag)) || []
       );
     }
@@ -104,106 +154,15 @@ const Page: React.FC = () => {
   }
 
   if (profile) {
-    // Filter links with hashtag #favorites for GridLayout
-    const favoriteLinks = profile.links.filter((link) =>
-      link.hashtags.includes('#favorites')
-    );
-
     return (
       <div className="bg-slate-100 min-h-screen">
-        {/* Pass only links with #favorites to GridLayout */}
-        <ImageWithButtons links={favoriteLinks} hotspotImage={profile.hotspotImage} />
-
-        {/* Hashtag Tabs */}
-        <div className="bg-white shadow-md py-3 px-5 mb-1 flex flex-wrap justify-center gap-3">
-          <button
-            onClick={() => setSelectedHashtag('All')}
-            className={`px-4 py-2 rounded-full font-semibold transition ${
-              selectedHashtag === 'All'
-                ? 'bg-red-700 text-white'
-                : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-            }`}
-          >
-            All
-          </button>
-          {hashtags.map((hashtag, index) => (
-            <button
-              key={index}
-              onClick={() => setSelectedHashtag(hashtag)}
-              className={`px-4 py-2 rounded-full font-semibold transition ${
-                selectedHashtag === hashtag
-                  ? 'bg-red-700 text-white'
-                  : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
-              }`}
-            >
-              {hashtag}
-            </button>
-          ))}
-        </div>
-
-        {/* Links List */}
-        <div className="max-w-4xl mx-auto px-4 py-4">
-          {filteredLinks.length > 0 ? (
-            <ul className="flex flex-col space-y-4">
-              {filteredLinks.map((link) => (
-                <li
-                  key={link._id}
-                  className="bg-white p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow"
-                >
-                  <div className="flex justify-between items-center">
-                    {/* Link Short Description */}
-                    <div>
-                      <h3 className="text-lg font-semibold text-gray-800">
-                        {link.shortDescription}
-                      </h3>
-                      {/* Link URL */}
-                      <a
-                        href={link.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-blue-500 hover:underline text-sm"
-                      >
-                        {link.url}
-                      </a>
-                    </div>
-                    {/* Image Preview (Optional) */}
-                    {link.images && link.images.length > 0 && (
-                      <div className="relative w-16 h-16">
-                        <Image
-                          src={link.images[0]}
-                          alt={link.shortDescription}
-                          className="rounded-lg object-cover"
-                          fill
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                        />
-                      </div>
-                    )}
-                  </div>
-                  {/* Hashtags */}
-                  {link.hashtags.length > 0 && (
-                    <div className="mt-2 flex flex-wrap gap-2">
-                      {link.hashtags.map((hashtag, index) => (
-                        <span
-                          key={index}
-                          className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-xs"
-                        >
-                          {hashtag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-gray-600 text-sm">No links available.</p>
-          )}
-        </div>
+        {/* TemplateRenderer */}
+        <TemplateRenderer componentsConfig={componentsConfig} />
       </div>
     );
   }
 
-  return null; // Render nothing if no profile data is available
+  return null;
 };
 
 export default Page;
