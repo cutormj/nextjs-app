@@ -25,6 +25,7 @@ interface ImageWithButtonsProps {
   colors: {
     primary: string;
     secondary: string;
+    background: string; // Background color for the section
     accent: string;
     textPrimary: string;
     textSecondary: string;
@@ -134,10 +135,11 @@ const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({
                 </div>
               </PopoverTrigger>
               <PopoverContent
-                className="shadow-xl rounded-lg p-4 w-64"
+                className="shadow-md rounded-lg p-4 w-64"
                 style={{
-                  backgroundColor: colors.secondary,
-                  color: colors.textPrimary,
+                  backgroundColor: colors.secondary, // Use background color from brandingColors
+                  color: colors.textPrimary, // Use primary text color for the content
+                  boxShadow: `0px 4px 15px ${colors.primary}`, // Darker shadow using primary color
                 }}
                 align="center"
                 sideOffset={8}
@@ -152,15 +154,17 @@ const ImageWithButtons: React.FC<ImageWithButtonsProps> = ({
                     className="rounded-md"
                   />
                 </div>
-                <p className="font-bold text-sm text-center mb-2">{link.shortDescription}</p>
+                <p className="font-bold text-sm text-center mb-2" style={{ color: colors.textSecondary }}>
+                  {link.shortDescription}
+                </p>
                 <a
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="block mt-3 font-semibold rounded-md px-4 py-2 shadow-md transition duration-200 ease-in-out transform hover:-translate-y-1 hover:scale-105 text-center"
                   style={{
-                    backgroundColor: colors.accent,
-                    color: colors.secondary,
+                    backgroundColor: colors.accent, // Use accent color for the button
+                    color: colors.secondary, // Use secondary color for the button text
                   }}
                 >
                   🚀 Visit Link

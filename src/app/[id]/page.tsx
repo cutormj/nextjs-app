@@ -48,7 +48,7 @@ const Page: React.FC = () => {
     primary: "#1E293B", // Dark Blue Gray (contrasts well with white)
     secondary: "#F8FAFC", // White (light background or card color)
     accent: "#EF4444", // Vibrant Red (for call-to-action elements)
-    background: "#F8FAFC", // Light Gray (subtle page background)
+    background: "#E2E8F0", // Light Gray (subtle page background)
     textPrimary: "#FFFFFF", // Dark Gray (for headings or main text)
     textSecondary: "#64748B", // Medium Gray (for subtitles or less prominent text)
   };
