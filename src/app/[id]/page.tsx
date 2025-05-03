@@ -150,6 +150,20 @@ const Page: React.FC = () => {
     }
   }, [selectedHashtag, profile]);
 
+  useEffect(() => {
+    if (profile) {
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) {
+        metaThemeColor.setAttribute("content", brandingColors.primary);
+      } else {
+        const meta = document.createElement("meta");
+        meta.name = "theme-color";
+        meta.content = brandingColors.primary;
+        document.head.appendChild(meta);
+      }
+    }
+  }, [profile]);
+
   if (loading) {
     return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
   }
@@ -160,10 +174,11 @@ const Page: React.FC = () => {
 
   if (profile) {
     return (
-      <div className="bg-slate-100 min-h-screen">
-        {/* TemplateRenderer */}
-        <TemplateRenderer componentsConfig={componentsConfig} />
-      </div>
+      <>
+        <div className="bg-slate-100 min-h-screen">
+          <TemplateRenderer componentsConfig={componentsConfig} />
+        </div>
+      </>
     );
   }
 
