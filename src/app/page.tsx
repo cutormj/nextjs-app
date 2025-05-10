@@ -48,14 +48,6 @@ const Page: React.FC = () => {
             title: "Interactive Hotspots",
             description: "Add interactive elements to your images for an engaging user experience.",
           },
-          {
-            title: "Hashtag Filtering",
-            description: "Filter and organize content using hashtags for better navigation.",
-          },
-          {
-            title: "Next.js Integration",
-            description: "Built with Next.js for fast performance and modern web standards.",
-          },
         ],
         colors: brandingColors,
       },

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import PageNotFound from '../personal-components/PageNotFound';
 import TemplateRenderer from '../personal-components/Templates/0TemplateRenderer';
+import Loading from '../personal-components/Templates/Loading';
 
 interface Profile {
   username: string;
@@ -165,7 +166,7 @@ const Page: React.FC = () => {
   }, [profile]);
 
   if (loading) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen flex items-center justify-center"><Loading/></div>;
   }
 
   if (error) {
