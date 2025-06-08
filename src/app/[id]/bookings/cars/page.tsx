@@ -453,7 +453,7 @@ const CarBooking: React.FC = () => {
   const [calendarYear, setCalendarYear] = useState(new Date().getFullYear());
   const [selectedDates, setSelectedDates] = useState<string[]>([]);
   const [selectedCarId, setSelectedCarId] = useState<string>("none");
-  const [carouselIdx, setCarouselIdx] = useState(0);
+  // Removed carouselIdx and bookedDates as they are unused
 
   // Cars for location and features (include "No car selected" always)
   const carsForLocation = carsWithNone.filter((car) => car.locations.includes(selectedLocation.id));
@@ -477,7 +477,7 @@ const CarBooking: React.FC = () => {
   const days = getDaysArray(calendarYear, calendarMonth);
   const firstDay = new Date(calendarYear, calendarMonth, 1).getDay();
   const monthStr = `${calendarYear}-${String(calendarMonth + 1).padStart(2, "0")}`;
-  const bookedDates = selectedCar.bookings;
+  // Removed bookedDates
   const codingDates = selectedDates.filter((d) => {
     if (selectedLocation.name !== "Manila" || selectedCar.id === "none") return false;
     const dateObj = new Date(d);
@@ -492,7 +492,6 @@ const CarBooking: React.FC = () => {
     setSelectedLocation(loc);
     setSelectedFeatures([]);
     setSelectedDates([]);
-    setCarouselIdx(0);
     setSelectedCarId("none");
   };
 
@@ -518,7 +517,6 @@ const CarBooking: React.FC = () => {
   const handleCarSelect = (carId: string) => {
     setSelectedCarId(carId);
     setSelectedDates([]);
-    setCarouselIdx(0);
   };
 
   const prevMonth = () => {
