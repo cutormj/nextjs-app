@@ -10,6 +10,13 @@ const nextConfig: NextConfig = {
         port: '', // No specific port
         pathname: '/**', // Allow all paths
       },
+      
+      {
+        protocol: 'https',
+        hostname: 'cdn-icons-png.flaticon.com', // For Picsum images
+        port: '', // No specific port
+        pathname: '/**', // Allow all paths
+      },
       {
         protocol: 'https',
         hostname: 'images.unsplash.com', // For Picsum images
