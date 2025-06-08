@@ -3,6 +3,7 @@
 // import AddLinkForm from '@/app/personal-components/Protected/AddLinkForm';
 import Navbar from '@/app/personal-components/Protected/Navbar';
 import ProtectedHeader from '@/app/personal-components/Protected/ProtectedHeader';
+import Calendar from '@/app/personal-components/Protected/Calendar';
 import { useSession, signIn } from 'next-auth/react';
 import React, { useState, useEffect } from 'react';
 
@@ -36,6 +37,8 @@ const ProtectedPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
 
+
+  
   useEffect(() => {
     if (status === 'unauthenticated') {
       signIn(); // Redirect to sign-in page if unauthenticated
@@ -85,6 +88,8 @@ const ProtectedPage: React.FC = () => {
   if (session && profile) {
     return (
       <div>
+        <div className="flex items-center justify-center min-h-screen bg-gray-50"><Calendar/></div>
+        
         <ProtectedHeader
           image={profile.image || session.user?.image || ''}
           name={profile.name || session.user?.name || ''}

@@ -12,6 +12,12 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: 'https',
+        hostname: 'images.unsplash.com', // For Picsum images
+        port: '', // No specific port
+        pathname: '/**', // Allow all paths
+      },
+      {
+        protocol: 'https',
         hostname: 'fastly.picsum.photos', // For redirected Fastly CDN images
         port: '',
         pathname: '/**',
